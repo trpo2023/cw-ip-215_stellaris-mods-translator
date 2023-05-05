@@ -23,17 +23,3 @@ void Parser(vector<paths> &Localisations, path mods_path)
         }
     }
 }
-
-int main()
-{
-    vector<paths> Localisations;
-    path mods_path = "C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\281990";
-
-    Parser(Localisations, mods_path);
-
-    for(paths i : Localisations)
-        cout << i.original_path << "\n"
-             << i.translate_path << "\n";
-
-    return 0;
-}

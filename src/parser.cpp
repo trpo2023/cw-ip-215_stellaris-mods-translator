@@ -1,15 +1,4 @@
-#include <iostream>
-#include <filesystem>
-#include <vector>
-
-using namespace std;
-using namespace filesystem;
-
-struct paths
-{
-    string original_path;
-    string translate_path;
-};
+#include "parser.hpp"
 
 string TranslatePath(string path)
 {
@@ -41,7 +30,7 @@ int main()
     path mods_path = "C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\281990";
 
     Parser(Localisations, mods_path);
-    
+
     for(paths i : Localisations)
         cout << i.original_path << "\n"
              << i.translate_path << "\n";

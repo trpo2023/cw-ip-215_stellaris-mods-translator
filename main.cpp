@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "src/parser.hpp"
+
 using namespace std;
 
 int main()
@@ -13,4 +15,14 @@ int main()
     string STEAM_LIBRARY;
     cin >> STEAM_LIBRARY;
     cout << '\n';
+
+    vector<paths> Localisations;
+    Parser(Localisations, STEAM_LIBRARY);
+
+    for (paths path : Localisations)
+    {
+        cout << path.original_path << '\n';
+        // int code = localise(path);
+        // log(code);
+    }
 }

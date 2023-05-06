@@ -4,10 +4,13 @@
 
 int localise(paths paths)
 {
-    ifstream original(paths.original_path);
-    ofstream localised(paths.translate_path);
+    create_directory(paths.translate_path);
 
-    string buferline;
+    string buferline = paths.original_path.substr(paths.original_path.rfind("\\"));
+    buferline.replace(buferline.rfind("english.yml"), 11, "russian.yml");
+
+    ifstream original(paths.original_path);
+    ofstream localised(paths.translate_path + buferline);
 
     while(!original.eof())
     {

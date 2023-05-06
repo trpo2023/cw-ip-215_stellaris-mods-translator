@@ -5,7 +5,7 @@ string TranslatePath(string path)
     if(path.find("\\english") != string::npos)
         path.replace(path.find("\\english"), 8, "\\russian");
 
-    return path.erase(path.rfind("\\"));;
+    return path.erase(path.rfind("\\"));
 }
 
 void Parser(vector<paths> &Localisations, path mods_path)

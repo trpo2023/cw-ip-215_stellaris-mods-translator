@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "src/parser.hpp"
+#include "src/fileLocalise.hpp"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ int main()
     for (paths path : Localisations)
     {
         cout << path.original_path << '\n';
-        // int code = localise(path);
+        int code = localise(path);
         // log(code);
     }
 }

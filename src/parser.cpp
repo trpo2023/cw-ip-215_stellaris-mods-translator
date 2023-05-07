@@ -14,7 +14,7 @@ void Parser(vector<paths> &Localisations, path mods_path)
     {
         if(is_directory(entry.status())) Parser(Localisations, entry.path());
 
-        else if(entry.path().string().find("_l_english.yml") != string::npos)
+        if(entry.path().string().find("_l_english.yml") != string::npos)
         {
             paths localisation_paths;
             localisation_paths.original_path = entry.path().string();

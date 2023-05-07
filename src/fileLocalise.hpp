@@ -1,10 +1,7 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
-#include <vector>
+#include "parser.hpp"
 
 using namespace std;
 
-int localise(paths paths);
-
+int localise(paths path);

@@ -22,9 +22,6 @@ int main()
 
     for (paths path : Localisations)
     {
-        cout << path.original_path << '\n'
-             << path.translate_path << "\n"
-             << "\n";
         int code = localise(path);
         // log(code);
     }

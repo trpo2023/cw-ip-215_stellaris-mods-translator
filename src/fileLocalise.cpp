@@ -1,31 +1,36 @@
 #include "fileLocalise.hpp"
-#include "parser.hpp"
 #include "translate.hpp"
 
-int localise(paths paths)
+int localise(paths path)
 {
-    create_directory(paths.translate_path);
+    create_directory(path.translate_path);
 
-    string buferline = paths.original_path.substr(paths.original_path.rfind("\\"));
+    string buferline = path.original_path.substr(path.original_path.rfind("\\"));
     buferline.replace(buferline.rfind("english.yml"), 11, "russian.yml");
+    buferline = path.translate_path + buferline;
 
-    ifstream original(paths.original_path);
-    ofstream localised(paths.translate_path + buferline);
-
-    while(!original.eof())
+    ifstream exist(buferline);
+    
+    if(!exist.good())
     {
-        getline(original, buferline);
+        ifstream original(path.original_path);
+        ofstream localised(buferline);
 
-        int firstQuote = buferline.find_first_of('\"');
-        if (firstQuote == string::npos) 
+        while(!original.eof())
         {
-            localised << buferline;
-            continue;
-        }
-        int lastQuote = buferline.find_last_of('\"');
+            getline(original, buferline);
 
-        localised << buferline.substr(0, firstQuote)
-                  << translate(buferline.substr(firstQuote, lastQuote - firstQuote))
-                  << buferline.substr(lastQuote, buferline.length() - lastQuote + 1);
+            int firstQuote = buferline.find_first_of('\"');
+            if (firstQuote == string::npos) 
+            {
+                localised << buferline;
+                continue;
+            }
+            int lastQuote = buferline.find_last_of('\"');
+
+            localised << buferline.substr(0, firstQuote)
+                      << translate(buferline.substr(firstQuote, lastQuote - firstQuote))
+                      << buferline.substr(lastQuote, buferline.length() - lastQuote + 1);
+        }
     }
 }

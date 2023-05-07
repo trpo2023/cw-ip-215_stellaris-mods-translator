@@ -3,34 +3,34 @@
 
 int localise(paths path)
 {
-    create_directory(path.translate_path);
+    ifstream original;
+    original.open(path.original_path);
 
-    string buferline = path.original_path.substr(path.original_path.rfind("\\"));
-    buferline.replace(buferline.rfind("english.yml"), 11, "russian.yml");
-    buferline = path.translate_path + buferline;
+    ofstream localised;
+    original.open(path.translate_path);
 
-    ifstream exist(buferline);
-    
-    if(!exist.good())
+    string buferline = "";
+
+    do getline(original, buferline);
+    while (buferline.find(':') == string::npos);
+
+    localised << "# translated last " << ctime(0) << '\n'
+              << "l_russian:" << '\n';
+
+    while(!original.eof())
     {
-        ifstream original(path.original_path);
-        ofstream localised(buferline);
+        getline(original, buferline);
 
-        while(!original.eof())
+        int firstQuote = buferline.find_first_of('\"');
+        if (firstQuote == string::npos) 
         {
-            getline(original, buferline);
-
-            int firstQuote = buferline.find_first_of('\"');
-            if (firstQuote == string::npos) 
-            {
-                localised << buferline;
-                continue;
-            }
-            int lastQuote = buferline.find_last_of('\"');
-
-            localised << buferline.substr(0, firstQuote)
-                      << translate(buferline.substr(firstQuote, lastQuote - firstQuote))
-                      << buferline.substr(lastQuote, buferline.length() - lastQuote + 1);
+            localised << buferline;
+            continue;
         }
+        int lastQuote = buferline.find_last_of('\"');
+
+        localised << buferline.substr(0, firstQuote)
+                  << translate(buferline.substr(firstQuote, lastQuote - firstQuote))
+                  << buferline.substr(lastQuote, buferline.length() - lastQuote + 1);
     }
 }

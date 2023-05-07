@@ -2,10 +2,18 @@
 
 string TranslatePath(string path)
 {
-    if(path.find("\\english") != string::npos)
-        path.replace(path.find("\\english"), 8, "\\russian");
+    string buferline = path;
+    buferline.replace(buferline.rfind("english.yml"), 11, "russian.yml");
 
-    return path.erase(path.rfind("\\"));
+    path.erase(path.rfind("\\"));
+    if(path.find("\\english") != string::npos)
+    {
+        path.replace(path.find("\\english"), 8, "\\russian");
+        buferline.replace(buferline.find("\\english"), 8, "\\russian");
+    }
+    create_directory(path);
+
+    return buferline;
 }
 
 void Parser(vector<paths> &Localisations, path mods_path)

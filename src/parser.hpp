@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <vector>
 
-#include "path.hpp"
+#include "paths.hpp"
 
 using namespace std;
 using namespace filesystem;

@@ -8,9 +8,6 @@ int localise(paths path)
 
     string buferline = "";
 
-    localised << "# translated last " << ctime(0) << '\n'
-              << "l_russian:" << '\n';
-
     while(!original.eof())
     {
         getline(original, buferline);

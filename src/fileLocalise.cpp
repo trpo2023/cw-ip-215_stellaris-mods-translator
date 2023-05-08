@@ -3,16 +3,11 @@
 
 int localise(paths path)
 {
-    ifstream original;
-    original.open(path.original_path);
+    ifstream original(path.original_path);
 
-    ofstream localised;
-    original.open(path.translate_path);
+    ofstream localised(path.translate_path);
 
-    string buferline = "";
-
-    localised << "# translated last " << ctime(0) << '\n'
-              << "l_russian:" << '\n';
+    string buferline;
 
     while(!original.eof())
     {

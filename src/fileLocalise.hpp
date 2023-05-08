@@ -3,7 +3,7 @@
 #include <fstream>
 #include <ctime>
 
-#include "parser.hpp"
+#include "paths.hpp"
 #include "translate.hpp"
 
 using namespace std;

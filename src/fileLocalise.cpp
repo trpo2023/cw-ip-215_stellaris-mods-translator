@@ -21,6 +21,12 @@ int localise(paths path)
     {
         getline(original, buferline);
 
+        if(buferline.find("l_english:") != string::npos)
+        {
+            buferline.replace(buferline.find("l_english:"), 11, "l_russian:");
+            buferline.append("# Automatically translated");
+        }
+
         int firstQuote = buferline.find_first_of('\"');
         if (firstQuote == string::npos) 
         {

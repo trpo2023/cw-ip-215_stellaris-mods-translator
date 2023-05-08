@@ -11,9 +11,6 @@ int localise(paths path)
 
     string buferline = "";
 
-    do getline(original, buferline);
-    while (buferline.find_first_of('english') == string::npos);
-
     localised << "# translated last " << ctime(0) << '\n'
               << "l_russian:" << '\n';
 

@@ -4,7 +4,6 @@
 int localise(paths path)
 {
     ifstream original(path.original_path);
-
     ofstream localised(path.translate_path);
 
     string buferline;
@@ -16,7 +15,7 @@ int localise(paths path)
         if(buferline.find("l_english:") != string::npos)
         {
             buferline.replace(buferline.find("l_english:"), 11, "l_russian:");
-            buferline.append("# Automatically translated");
+            buferline.append("# Automatically translated\n");
         }
 
         int firstQuote = buferline.find_first_of('\"');
@@ -29,6 +28,6 @@ int localise(paths path)
 
         localised << buferline.substr(0, firstQuote)
                   << translate(buferline.substr(firstQuote, lastQuote - firstQuote))
-                  << buferline.substr(lastQuote, buferline.length() - lastQuote + 1);
+                  << buferline.substr(lastQuote, buferline.length() - lastQuote + 1) << "\n";
     }
 }

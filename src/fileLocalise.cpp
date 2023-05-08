@@ -6,7 +6,7 @@ int localise(paths path)
     ifstream original(path.original_path);
     ofstream localised(path.translate_path);
 
-    string buferline = "";
+    string buferline;
 
     while(!original.eof())
     {

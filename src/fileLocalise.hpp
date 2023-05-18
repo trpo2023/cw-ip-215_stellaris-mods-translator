@@ -3,8 +3,6 @@
 #include <fstream>
 
 #include "paths.hpp"
-#include "translate.hpp"
 
-using namespace std;
+int localise(paths paths, std::string apiKey);
 
-int localise(paths path);

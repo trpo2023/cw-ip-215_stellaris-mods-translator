@@ -1,28 +1,21 @@
-#include <iostream>
-
 #include "src/parser.hpp"
 #include "src/fileLocalise.hpp"
 
-using namespace std;
-
 int main()
 {
-    cout << "Api key: ";
-    string API_KEY;
-    getline(cin, API_KEY);
-    cout << '\n';
+    std::cout << "Api key: ";
+    std::string apiKey;
+    getline(std::cin, apiKey);
+    std::cout << '\n';
 
-    cout << "steam library path: ";
-    string STEAM_LIBRARY;
-    getline(cin, STEAM_LIBRARY);
-    cout << '\n';
+    std::cout << "Steam library path: ";
+    std::string steamLibrary;
+    getline(std::cin, steamLibrary);
+    std::cout << '\n';
 
-    vector<paths> Localisations;
-    Parser(Localisations, STEAM_LIBRARY);
+    std::vector<paths> Localisations;
+    Parser(Localisations, steamLibrary);
 
     for (paths path : Localisations)
-    {
-        int code = localise(path);
-        // log(code);
-    }
+        int code = localise(path, apiKey);
 }

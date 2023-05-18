@@ -1,7 +1,11 @@
 #include <iostream>
+
 using namespace std;
-void log(int code){
-    switch(code){
+
+void log(int code)
+{
+    switch(code)
+    {
         case 0: cout << "file is succesfully transfered"; break;
         case 1: cout << "file transfered with problems"; break;
         case 2: cout << "file transfered partially"; break;
@@ -10,7 +14,8 @@ void log(int code){
     } 
 }
 
-int main(){
+int main()
+{
     int code;
     log(code);
     return 0;

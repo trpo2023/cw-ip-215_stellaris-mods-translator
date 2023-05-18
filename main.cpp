@@ -8,8 +8,8 @@ using namespace std;
 int main()
 {
     cout << "Api key: ";
-    string API_KEY;
-    cin >> API_KEY;
+    string apiKey;
+    cin >> apiKey;
     cout << '\n';
 
     cout << "steam library path: ";
@@ -23,7 +23,7 @@ int main()
     for (paths path : Localisations)
     {
         cout << path.original_path << '\n';
-        int code = localise(path);
+        int code = localise(path, apiKey);
         // log(code);
     }
 }

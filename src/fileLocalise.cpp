@@ -2,7 +2,7 @@
 #include "parser.hpp"
 #include "translate.hpp"
 
-int localise(paths paths)
+int localise(paths paths, string apiKey)
 {
     ifstream original(paths.original_path);
     ofstream localised(paths.translate_path);
@@ -22,7 +22,7 @@ int localise(paths paths)
         int lastQuote = buferline.find_last_of('\"');
 
         localised << buferline.substr(0, firstQuote)
-                  << translate(buferline.substr(firstQuote, lastQuote - firstQuote))
+                  << translate(buferline.substr(firstQuote, lastQuote - firstQuote), apiKey)
                   << buferline.substr(lastQuote, buferline.length() - lastQuote + 1);
     }
 }

@@ -1,41 +1,58 @@
-#include "translate.hpp"
+#include <translate.hpp>
 
-namespace http = boost::beast::http;
+string translatedText;
 
-string translate(string str)
+size_t WriteCallback(char* buf, size_t size, size_t nmemb, void* userdata) 
 {
-    string translateAPI = R"(translate.yandex.net)";
-    string API_ARGS = R"(/api/v1.5/tr.json/translate)";
-    string API_KEY = R"(тут будет ключ)";
+    translatedText.append(buf, size * nmemb);
+    return size * nmemb;
+}
 
-    boost::asio::io_context io;
-    boost::asio::ip::tcp::socket socket(io);
-    boost::asio::ip::tcp::resolver resolver(io);
+string translate(string textToTranslate, string apiKey) 
+{
+    CURL* curl;
+    CURLcode res;
 
-    boost::asio::connect(socket, resolver.resolve(translateAPI, "80"));
+    struct curl_slist* headers = NULL;
 
-    string argument = API_ARGS + 
-        "?key=" + API_KEY +
-        "&text=" + str +
-        "&lang=" + "en-ru";
+    string url = "https://translate.api.cloud.yandex.net/translate/v2/translate";
+    string fromLang = "en";
+    string toLang = "ru";
 
-    http::request<http::string_body> req(http::verb::get, argument, 11);
+    curl = curl_easy_init();
 
-    req.set(http::field::host, translateAPI);
-    req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
-
-    http::write(socket, req);
-
-    string response;
+    if (curl) 
     {
-        boost::beast::flat_buffer buffer;
-        http::response<http::dynamic_body> res;
-        http::read(socket, buffer, res);
-        response = boost::beast::buffers_to_string(res.body().data());
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        headers = curl_slist_append(headers, ("Authorization: Api-Key " + apiKey).c_str());
+
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+        string post_data = 
+            "{\"texts\":[\"" + textToTranslate + "\"]," + 
+            "\"targetLanguageCode\":\"" + toLang + "\"," + 
+            "\"sourceLanguageCode\":\"" + fromLang + "\"}";
+
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data.c_str());
+
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+        res = curl_easy_perform(curl);
+        if (res != CURLE_OK)
+            cerr << "Error: " << curl_easy_strerror(res) << endl;
+
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+
+        // parsing "text" field from json ansver
+        translatedText = translatedText.substr(translatedText.rfind(':') + 3, translatedText.rfind('"') - translatedText.rfind(':') - 3);
+
+        return translatedText;
     }
-
-    socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
-    cout << response;
-
-    return str;
+    else
+    {
+        return textToTranslate;
+    }
 }

@@ -1,10 +1,8 @@
 #pragma once
 
-#include <iostream>
 #include <fstream>
-#include <vector>
 
-using namespace std;
+#include "paths.hpp"
 
-int localise(paths paths, string apiKey);
+int localise(paths paths, std::string apiKey);
 

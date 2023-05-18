@@ -1,6 +1,6 @@
-#include <translate.hpp>
+#include "translate.hpp"
 
-string translatedText;
+std::string translatedText;
 
 size_t WriteCallback(char* buf, size_t size, size_t nmemb, void* userdata) 
 {
@@ -8,16 +8,16 @@ size_t WriteCallback(char* buf, size_t size, size_t nmemb, void* userdata)
     return size * nmemb;
 }
 
-string translate(string textToTranslate, string apiKey) 
+std::string translate(std::string textToTranslate, std::string apiKey) 
 {
     CURL* curl;
     CURLcode res;
 
     struct curl_slist* headers = NULL;
 
-    string url = "https://translate.api.cloud.yandex.net/translate/v2/translate";
-    string fromLang = "en";
-    string toLang = "ru";
+    std::string url = "https://translate.api.cloud.yandex.net/translate/v2/translate";
+    std::string fromLang = "en";
+    std::string toLang = "ru";
 
     curl = curl_easy_init();
 
@@ -30,7 +30,7 @@ string translate(string textToTranslate, string apiKey)
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 
-        string post_data = 
+        std::string post_data = 
             "{\"texts\":[\"" + textToTranslate + "\"]," + 
             "\"targetLanguageCode\":\"" + toLang + "\"," + 
             "\"sourceLanguageCode\":\"" + fromLang + "\"}";
@@ -40,8 +40,6 @@ string translate(string textToTranslate, string apiKey)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
 
         res = curl_easy_perform(curl);
-        if (res != CURLE_OK)
-            cerr << "Error: " << curl_easy_strerror(res) << endl;
 
         curl_slist_free_all(headers);
         curl_easy_cleanup(curl);
@@ -52,7 +50,5 @@ string translate(string textToTranslate, string apiKey)
         return translatedText;
     }
     else
-    {
         return textToTranslate;
-    }
 }

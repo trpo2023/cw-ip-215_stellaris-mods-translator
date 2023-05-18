@@ -1,17 +1,9 @@
 #pragma once
 
-#include <iostream>
 #include <filesystem>
 #include <vector>
 
-using namespace std;
-using namespace filesystem;
+#include "paths.hpp"
 
-struct paths
-{
-    string original_path;
-    string translate_path;
-};
-
-string TranslatePath(string path);
-void Parser(vector<paths> &Localisations, path mods_path);
+std::string TranslatePath(std::string path);
+void Parser(std::vector<paths> &Localisations, std::filesystem::path mods_path);

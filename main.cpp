@@ -8,7 +8,7 @@ int main()
     getline(std::cin, apiKey);
     std::cout << '\n';
 
-    std::cout << "Steam library path: ";
+    std::cout << "Mod path: ";
     std::string steamLibrary;
     getline(std::cin, steamLibrary);
     std::cout << '\n';

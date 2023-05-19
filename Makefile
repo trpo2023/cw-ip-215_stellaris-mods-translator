@@ -14,7 +14,7 @@ main : build/main.o build/parser.o build/fileLocalise.o build/translate.o
 	$(GPP) $(FLAGS) $(LIB) -o main.exe build/main.o build/parser.o build/fileLocalise.o build/translate.o -lcurl
 
 build/main.o : main.cpp
-	$(GPP) $(FLAGS) -c -o build/main.o main.cpp
+	$(GPP) $(FLAGS) $(INCLUDE) -c -o build/main.o main.cpp
 
 build/parser.o : src/parser.cpp
 	$(GPP) $(FLAGS) -c -o build/parser.o src/parser.cpp

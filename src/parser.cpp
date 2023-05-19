@@ -1,7 +1,5 @@
 #include "parser.hpp"
 
-namespace fs = std::filesystem;
-
 std::string TranslatePath(std::string path)
 {
     std::string buferline = path;
@@ -13,16 +11,16 @@ std::string TranslatePath(std::string path)
         path.replace(path.find("\\english"), 8, "\\russian");
         buferline.replace(buferline.find("\\english"), 8, "\\russian");
     }
-    fs::create_directory(path);
+    std::filesystem::create_directory(path);
 
     return buferline;
 }
 
-void Parser(std::vector<paths> &Localisations, fs::path mods_path)
+void Parser(std::vector<paths> &Localisations, std::filesystem::path mods_path)
 {
-    for(auto& entry : fs::directory_iterator(mods_path))
+    for(auto& entry : std::filesystem::directory_iterator(mods_path))
     {
-        if(fs::is_directory(entry.status())) Parser(Localisations, entry.path());
+        if(std::filesystem::is_directory(entry.status())) Parser(Localisations, entry.path());
 
         if(entry.path().string().find("_l_english.yml") != std::string::npos)
         {

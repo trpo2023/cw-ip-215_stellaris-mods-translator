@@ -24,7 +24,6 @@ int localise(paths path, std::string apiKey, int workingType)
 
         getline(exist, buferline);
 
-        //if not retranslate automatically translated
         if(buferline.find("Automatically translated") != std::string::npos && workingType < 2)
             return FILE_ALREADY_TRANSLATED;
 

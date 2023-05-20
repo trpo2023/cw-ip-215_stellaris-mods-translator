@@ -5,8 +5,5 @@
 
 #include "paths.hpp"
 
-using namespace std;
-using namespace filesystem;
-
-string TranslatePath(string path);
-void Parser(vector<paths> &Localisations, path mods_path);
+std::string TranslatePath(std::string path);
+void Parser(std::vector<paths> &Localisations, std::filesystem::path mods_path);

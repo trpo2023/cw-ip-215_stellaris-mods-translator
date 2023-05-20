@@ -2,11 +2,11 @@
 #include "translate.hpp"
 
 #define FILE_EXIST 4
-#define FILE_ALREADY_TRANSLATED 4
-#define FILE_TRANSLATED_BY_MOD_CREATOR 4
-#define SUCCESFULLY_CREATED 0
+#define FILE_ALREADY_TRANSLATED 2
+#define FILE_TRANSLATED_BY_MOD_CREATOR 3
+#define SUCCESFULLY_CREATED 1
 #define SUCCESFULLY_TRANSLATED 0
-#define UNCORRECT_WORKING_TYPE 3
+#define UNCORRECT_WORKING_TYPE 5
 
 int localise(paths path, std::string apiKey, int workingType)
 {

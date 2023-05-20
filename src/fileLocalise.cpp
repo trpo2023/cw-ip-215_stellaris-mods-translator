@@ -33,14 +33,16 @@ int localise(paths path, std::string apiKey, int workingType)
         }
 
         do getline(localised, buferline);
-        while (buferline.find(":") != std::string::npos)
+        while (buferline.find(":") != std::string::npos);
+        
+        for (char ch : buferline)
+            for (char rusCh : "йцукенгшщзхъфывапролджэячсмитьбюё")
+                if (workingType < 3 && ch == rusCh)
+                {
+                    return FILE_TRANSLATED_BY_MOD_CREATOR;
+                }
 
-        if (!Regex.IsMatch(buferline, @"\p{IsCyrillic}") &&
-        // russian symbols check
-            workingType < 3) // if not retranslate all
-        {
-            return FILE_TRANSLATED_BY_MOD_CREATOR;
-        }
+        
         localised.seekg(0); // return to first symbol
     }
 

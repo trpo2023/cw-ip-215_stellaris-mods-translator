@@ -12,10 +12,3 @@ void log(int code)
         case 5: cout << "invalid working type"; break;
     } 
 }
-
-int main()
-{
-    int code;
-    log(code);
-    return 0;
-}

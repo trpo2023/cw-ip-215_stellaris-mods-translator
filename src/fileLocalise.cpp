@@ -1,7 +1,7 @@
 #include "fileLocalise.hpp"
 #include "translate.hpp"
 
-int localise(paths path, std::string apiKey)
+int localise(paths path, std::string apiKey, int workingType)
 {
     std::ifstream original(path.original_path);
     std::ofstream localised(path.translate_path);

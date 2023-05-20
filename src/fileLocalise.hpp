@@ -4,5 +4,4 @@
 
 #include "paths.hpp"
 
-int localise(paths paths, std::string apiKey);
-
+int localise(paths paths, std::string apiKey, int workingType);

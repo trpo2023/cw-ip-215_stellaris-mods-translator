@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include "logging.hpp"
 
 void log(int code)
 {

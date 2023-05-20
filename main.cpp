@@ -1,5 +1,6 @@
 #include "src/parser.hpp"
 #include "src/fileLocalise.hpp"
+#include "src/logging.hpp"
 
 int main()
 {
@@ -17,5 +18,8 @@ int main()
     Parser(Localisations, steamLibrary);
 
     for (paths path : Localisations)
+    {
         int code = localise(path, apiKey);
+        log(code);
+    }
 }

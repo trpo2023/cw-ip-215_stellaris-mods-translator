@@ -1,5 +1,4 @@
 #include "fileLocalise.hpp"
-#include "translate.hpp"
 
 #define FILE_EXIST 4
 #define FILE_ALREADY_TRANSLATED 2
@@ -56,7 +55,7 @@ int localise(paths path, std::string apiKey, int workingType)
         }
 
         int firstQuote = buferline.find_first_of('\"');
-        if (firstQuote == std::string::npos) 
+        if (firstQuote == (int)std::string::npos) 
         {
             localised << buferline;
             continue;

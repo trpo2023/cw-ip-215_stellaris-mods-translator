@@ -18,7 +18,7 @@ std::string translate(std::string textToTranslate, std::string apiKey)
     std::string toLang = "ru";
 
     curl = curl_easy_init();
-    if (curl) 
+    if(curl) 
     {
         headers = curl_slist_append(headers, "Content-Type: application/json");
         headers = curl_slist_append(headers, ("Authorization: Api-Key " + apiKey).c_str());

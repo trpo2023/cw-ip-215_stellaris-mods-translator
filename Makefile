@@ -10,11 +10,14 @@ all :
 run :
 	./main
 
-main : build/main.o build/parser.o build/fileLocalise.o build/translate.o
-	$(GPP) $(FLAGS) $(LIB) -o main.exe build/main.o build/parser.o build/fileLocalise.o build/translate.o -lcurl
+main : build/main.o build/log.o build/parser.o build/fileLocalise.o build/translate.o
+	$(GPP) $(FLAGS) $(LIB) -o main.exe build/main.o build/log.o build/parser.o build/fileLocalise.o build/translate.o -lcurl
 
 build/main.o : main.cpp
 	$(GPP) $(FLAGS) $(INCLUDE) -c -o build/main.o main.cpp
+
+build/log.o : src/log.cpp
+	$(GPP) $(FLAGS) -c -o build/log.o src/log.cpp
 
 build/parser.o : src/parser.cpp
 	$(GPP) $(FLAGS) -c -o build/parser.o src/parser.cpp

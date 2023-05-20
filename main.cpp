@@ -16,9 +16,9 @@ int main()
 
     std::cout << "Program work type:" << endl
               << "0 - only make files" << endl
-              << "1 - only translate eng files" << endl
-              << "2 - only retranslate automatically translated" << endl
-              << "3 - replace all" << endl;
+              << "1 - and translate eng files" << endl
+              << "2 - and retranslate automatically translated" << endl
+              << "3 - and retranslate all" << endl;
     int workingType;
     cin >> workingType;
     cout << endl;

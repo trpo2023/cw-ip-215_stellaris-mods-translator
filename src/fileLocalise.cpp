@@ -4,6 +4,9 @@
 #define FILE_EXIST 4
 #define FILE_ALREADY_TRANSLATED 4
 #define FILE_TRANSLATED_BY_MOD_CREATOR 4
+#define SUCCESFULLY_CREATED 0
+#define SUCCESFULLY_TRANSLATED 0
+#define UNCORRECT_WORKING_TYPE 3
 
 int localise(paths path, std::string apiKey, int workingType)
 {
@@ -11,6 +14,9 @@ int localise(paths path, std::string apiKey, int workingType)
     std::fstream localised(path.translate_path);
 
     std::string buferline;
+
+    if (workingType > 4 || workingType < 0)
+        return UNCORRECT_WORKING_TYPE;
 
     if(localised.good())
     {
@@ -67,5 +73,11 @@ int localise(paths path, std::string apiKey, int workingType)
         {
             localised << buferline;
         }
+    }
+
+    switch (workingType)
+    {
+        case 0: return SUCCESFULLY_CREATED;
+        case 1: return SUCCESFULLY_TRANSLATED;
     }
 }

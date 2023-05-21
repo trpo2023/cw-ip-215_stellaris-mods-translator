@@ -10,8 +10,8 @@ int main()
     std::cout << endl;
 
     std::cout << "Mod path: ";
-    std::string steamLibrary;
-    getline(std::cin, steamLibrary);
+    std::string modPath;
+    getline(std::cin, modPath);
     std::cout << endl;
 
     std::cout << "Program work type:" << endl
@@ -24,9 +24,9 @@ int main()
     cout << endl;
 
     std::vector<paths> Localisations;
-    Parser(Localisations, steamLibrary);
+    Parser(Localisations, modPath);
 
-    for (paths path : Localisations)
+    for(paths path : Localisations)
     {
         int code = localise(path, apiKey, workingType);
         log(code);

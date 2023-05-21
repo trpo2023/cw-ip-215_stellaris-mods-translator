@@ -9,14 +9,13 @@
 
 int localise(paths path, std::string apiKey, int workingType)
 {
-    std::ifstream original(path.original_path);
-    std::ifstream exist(path.translate_path);
-    std::ofstream localised(path.translate_path);
+    std::ifstream original(path.originalPath);
+    std::ifstream exist(path.translatePath);
+    std::ofstream localised(path.translatePath);
 
     std::string buferline;
 
-    if(workingType > 4 || workingType < 0)
-        return UNCORRECT_WORKING_TYPE;
+    if(workingType > 4 || workingType < 0) return UNCORRECT_WORKING_TYPE;
 
     if(exist.good() && workingType != 3)
     {
@@ -28,7 +27,7 @@ int localise(paths path, std::string apiKey, int workingType)
             return FILE_ALREADY_TRANSLATED;
 
         do getline(exist, buferline);
-        while (buferline.find(":") != std::string::npos);
+        while(buferline.find(":") != std::string::npos);
         
         for(char ch : buferline)
             for(char rusCh : "йцукенгшщзхъфывапролджэячсмитьбюё")

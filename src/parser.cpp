@@ -1,6 +1,6 @@
 #include "parser.hpp"
 
-std::string TranslatePath(std::string path)
+std::string translatePath(std::string path)
 {
     std::string buferline = path;
     buferline.replace(buferline.rfind("english.yml"), 11, "russian.yml");
@@ -16,18 +16,19 @@ std::string TranslatePath(std::string path)
     return buferline;
 }
 
-void Parser(std::vector<paths> &Localisations, std::filesystem::path mods_path)
+void Parser(std::vector<paths> &Localisations, std::filesystem::path modPath)
 {
-    for(auto& entry : std::filesystem::directory_iterator(mods_path))
+    for(auto& entry : std::filesystem::directory_iterator(modPath))
     {
-        if(std::filesystem::is_directory(entry.status())) Parser(Localisations, entry.path());
+        if(std::filesystem::is_directory(entry.status()))
+            Parser(Localisations, entry.path());
 
         if(entry.path().string().find("_l_english.yml") != std::string::npos)
         {
-            paths localisation_paths;
-            localisation_paths.original_path = entry.path().string();
-            localisation_paths.translate_path = TranslatePath(entry.path().string());
-            Localisations.push_back(localisation_paths);
+            paths localisationPaths;
+            localisationPaths.originalPath = entry.path().string();
+            localisationPaths.translatePath = translatePath(entry.path().string());
+            Localisations.push_back(localisationPaths);
         }
     }
 }

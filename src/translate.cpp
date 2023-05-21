@@ -42,5 +42,4 @@ std::string translate(std::string textToTranslate, std::string apiKey)
                                      translatedText.rfind('"') - 
                                      translatedText.rfind(':') - 3);
     }
-    else return textToTranslate;
 }

@@ -4,6 +4,6 @@
 
 struct paths
 {
-    std::string original_path;
-    std::string translate_path;
+    std::string originalPath;
+    std::string translatePath;
 };

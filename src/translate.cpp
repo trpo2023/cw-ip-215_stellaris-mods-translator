@@ -20,6 +20,22 @@ std::string translate(std::string textToTranslate, std::string apiKey)
     curl = curl_easy_init();
     if(curl) 
     {
+        std::vector<std::string> doNotTranslate;
+        bool emodsi = false;
+        for (char i : translated)
+        {
+            if (i == '[' || i == ']' || i == '$' || i == '£') 
+            {
+                emodsi = !emodsi;
+                if (emodsi)
+                    doNotTranslate[doNotTranslate.size() - 1].append(i);
+                doNotTranslate.insert("");
+                continue;
+            }
+            if (emodsi)
+                doNotTranslate[doNotTranslate.size() - 1].append(i);
+        }
+
         headers = curl_slist_append(headers, "Content-Type: application/json");
         headers = curl_slist_append(headers, ("Authorization: Api-Key " + apiKey).c_str());
 
@@ -27,9 +43,22 @@ std::string translate(std::string textToTranslate, std::string apiKey)
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 
-        std::string post_data = "{\"texts\":[\"" + textToTranslate + "\"]," + 
-                                "\"targetLanguageCode\":\"" + toLang + "\"," + 
-                                "\"sourceLanguageCode\":\"" + fromLang + "\"}";
+        std::string post_data = 
+            "{\"texts\":[\"" + textToTranslate + "\"]," + 
+            "\"targetLanguageCode\":\"" + toLang + "\"," + 
+            "\"sourceLanguageCode\":\"" + fromLang + "\"}" +
+            "\"glossaryConfig\": {" +
+            "\"glossaryData\": {" +
+            "\"glossaryPairs\": [";
+        for (std::string word : doNotTranslate)
+        {
+            post_data += 
+                "{\"sourceText\": " + word + "\"," +
+                "\"translatedText\": " + word + "}";
+            if (word != doNotTranslate[doNotTranslate.size() - 1])
+                post_data += ',';
+        }
+        post_data += "]}}}";
 
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);

@@ -7,21 +7,21 @@ int main()
     std::cout << "Api key: ";
     std::string apiKey;
     getline(std::cin, apiKey);
-    std::cout << endl;
+    std::cout << std::endl;
 
     std::cout << "Mod path: ";
     std::string modPath;
     getline(std::cin, modPath);
-    std::cout << endl;
+    std::cout << std::endl;
 
-    std::cout << "Program work type:" << endl
-              << "0 - only make files" << endl
-              << "1 - and translate eng files" << endl
-              << "2 - and retranslate automatically translated" << endl
-              << "3 - and retranslate all" << endl;
+    std::cout << "Program work type:\n"
+              << "0 - only make files\n"
+              << "1 - and translate eng files\n"
+              << "2 - and retranslate automatically translated\n"
+              << "3 - and retranslate all\n";
     int workingType;
-    cin >> workingType;
-    cout << endl;
+    std::cin >> workingType;
+    std::cout << std::endl;
 
     std::vector<paths> Localisations;
     Parser(Localisations, modPath);

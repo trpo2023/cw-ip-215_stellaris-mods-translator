@@ -1,7 +1,7 @@
 GPP = g++
 FLAGS = -Wall
-LIB = -L C:\Users\kapto\libs\curl-8.1.0_1-win64-mingw\lib
-INCLUDE = -I C:\Users\kapto\libs\curl-8.1.0_1-win64-mingw\include
+LIB = -L lib\curl-8.1.0_1-win64-mingw\lib
+INCLUDE = -I lib\curl-8.1.0_1-win64-mingw\include
 
 all : 
 	make main

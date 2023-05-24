@@ -11,7 +11,7 @@ run :
 	./bin/main
 
 main : build/main.o build/log.o build/parser.o build/fileLocalise.o build/translate.o
-	$(GPP) $(FLAGS) $(LIB) -o bin/main.exe build/main.o build/log.o build/parser.o build/fileLocalise.o build/translate.o -lcurl
+	$(GPP) $(FLAGS) $(LIB) -o bin/main build/main.o build/log.o build/parser.o build/fileLocalise.o build/translate.o -lcurl
 
 build/main.o : src/main.cpp
 	$(GPP) $(FLAGS) $(INCLUDE) -c -o build/main.o src/main.cpp

@@ -1,0 +1,14 @@
+name: CI
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up libcurl
+        run: sudo apt-get install libcurl4-openssl-dev
+      - name: Build and run
+        run: make

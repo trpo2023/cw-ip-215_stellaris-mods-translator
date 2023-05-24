@@ -18,6 +18,12 @@ std::string translatePath(std::string path)
 
 void Parser(std::vector<paths> &Localisations, std::filesystem::path modPath)
 {
+    if (!std::filesystem::exists(modPath))
+    {
+        std::cout << "Invalid path\n";
+        return;
+    }
+
     for(auto& entry : std::filesystem::directory_iterator(modPath))
     {
         if(std::filesystem::is_directory(entry.status()))

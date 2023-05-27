@@ -1,12 +1,5 @@
 #include "fileLocalise.hpp"
 
-#define SUCCESFULLY_TRANSLATED 0
-#define SUCCESFULLY_CREATED 1
-#define FILE_ALREADY_TRANSLATED 2
-#define FILE_TRANSLATED_BY_MOD_CREATOR 3
-#define FILE_EXIST 4
-#define UNCORRECT_WORKING_TYPE 5
-
 int localise(paths path, std::string apiKey, int workingType)
 {
     std::ifstream original(path.originalPath);
@@ -31,7 +24,7 @@ int localise(paths path, std::string apiKey, int workingType)
         
         for(char ch : buferline)
             for(char rusCh : "йцукенгшщзхъфывапролджэячсмитьбюё")
-                if(workingType < 3 && ch == rusCh) return FILE_TRANSLATED_BY_MOD_CREATOR;
+                if(ch == rusCh) return FILE_TRANSLATED_BY_MOD_CREATOR;
     }
 
     while(!original.eof())

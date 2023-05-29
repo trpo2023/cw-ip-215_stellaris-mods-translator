@@ -29,6 +29,6 @@ int main()
     for(paths path : Localisations)
     {
         int code = localise(path, apiKey, workingType);
-        log(code);
+        std::cout << log(code);
     }
 }

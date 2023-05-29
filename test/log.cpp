@@ -1,6 +1,6 @@
 #include <log.hpp>
 
-#include <ctest/ctest.h>
+#include <thirdparty/ctest.h>
 
 CTEST(one_turn_tests, log_test)
 {
@@ -17,9 +17,6 @@ CTEST(one_turn_tests, log_test)
         "invalid working type\n"
     };
 
-    for (int i = 0; i < N; i += 1)
-    {
-        result[i] = log(i);
-        ASSERT_EQUAL(expected[i], result[i]);
-    }
+    for(int i = 0; i < N; i += 1)
+        ASSERT_STR(expected[i].c_str(), log(i).c_str());
 }

@@ -1,12 +1,12 @@
 #include <parser.hpp>
 
-#include <ctest/ctest.h>
+#include <thirdparty/ctest.h>
 
 CTEST(directory_tests, parser_test)
 {
     std::vector<paths> outputPathsArray;
     std::filesystem::copy("pathForTest", "pathForTestCopy");
-    Parser(pathsArray, "pathForTestCopy");
+    Parser(outputPathsArray, "pathForTestCopy");
 
     ASSERT_EQUAL(false, outputPathsArray.empty());
 }

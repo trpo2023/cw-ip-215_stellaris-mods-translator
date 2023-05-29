@@ -13,7 +13,7 @@ run :
 	./bin/main
 
 test : $(SRC) $(TEST)
-	$(GPP) $(FLAGS) -o $(SRC) $(TEST) -lcurl
+	$(GPP) $(FLAGS) -o bin/mainTest $(SRC) $(TEST) -lcurl
 	./bin/mainTest
 
 build/test/main.o : test/main.cpp 

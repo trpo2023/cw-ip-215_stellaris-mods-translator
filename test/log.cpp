@@ -1,6 +1,6 @@
-#include <log.hpp>
+#include "../src/log.hpp"
 
-#include <../thirdparty/ctest.h>
+#include "../thirdparty/ctest.h"
 
 CTEST(one_turn_tests, log_test)
 {

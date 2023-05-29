@@ -1,6 +1,6 @@
 #include <parser.hpp>
 
-#include <thirdparty/ctest.h>
+#include <../thirdparty/ctest.h>
 
 CTEST(directory_tests, parser_test)
 {

@@ -2,4 +2,4 @@
 
 #include <iostream>
 
-void log(int code);
+std::string log(int code);

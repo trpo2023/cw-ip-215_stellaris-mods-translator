@@ -1,6 +1,7 @@
 GPP = g++
 FLAGS = -Wall
 INCLUDE = -I/usr/include/curl
+SRC_INCLUDE = -I../src/
 LIB = -L/usr/lib/x86_64-linux-gnu
 
 all : 
@@ -9,6 +10,10 @@ all :
 
 run :
 	./bin/main
+
+
+build/test/log.o : test/log.cpp
+	$(GPP) $(FLAGS) $(SRC_INCLUDE) -c -o build/test/log.o test/log.cpp
 
 main : build/src/main.o build/src/log.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o
 	$(GPP) $(FLAGS) $(LIB) -o bin/main build/src/main.o build/src/log.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o -lcurl

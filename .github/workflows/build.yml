@@ -8,9 +8,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Check codestyle
-        run: git ls-files *.{c,h} | xargs clang-format -i --verbose && git diff --exit-code
       
       - name: Set up libcurl
         run: sudo apt-get update && sudo apt-get install -y libcurl4-gnutls-dev

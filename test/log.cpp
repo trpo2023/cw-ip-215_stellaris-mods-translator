@@ -1,6 +1,6 @@
 #include <log.hpp>
 
-#include <ctest.h>
+#include <ctest/ctest.h>
 
 CTEST(one_turn_tests, log_test)
 {

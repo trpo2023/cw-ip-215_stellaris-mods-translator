@@ -2,8 +2,6 @@ GPP = g++
 FLAGS = -Wall
 INCLUDE = -I/usr/include
 LIB = -L/usr/lib/x86_64-linux-gnu
-SRC = build/src/main.o build/src/log.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o
-TEST = build/test/main.o build/test/log.o build/test/parser.o build/test/fileLocalise.o
 
 all : 
 	make main
@@ -12,8 +10,8 @@ all :
 run :
 	./bin/main
 
-test : $(SRC) $(TEST)
-	$(GPP) $(FLAGS) -o bin/mainTest $(SRC) $(TEST) -lcurl
+test : build/test/main.o build/test/log.o build/src/log.o build/test/parser.o build/src/parser.o build/test/fileLocalise.o build/src/fileLocalise.o build/src/translate.o
+	$(GPP) $(FLAGS) -o bin/mainTest build/test/main.o build/test/log.o build/src/log.o build/test/parser.o build/src/parser.o build/test/fileLocalise.o build/src/fileLocalise.o build/src/translate.o -lcurl
 	./bin/mainTest
 
 build/test/main.o : test/main.cpp 
@@ -28,8 +26,8 @@ build/test/parser.o : test/parser.cpp
 build/test/fileLocalise.o : test/fileLocalise.cpp
 	$(GPP) $(FLAGS) -c -o build/test/fileLocalise.o test/fileLocalise.cpp
 
-main : $(SRC)
-	$(GPP) $(FLAGS) $(LIB) -o bin/main $(SRC) -lcurl
+main : build/src/main.o build/src/log.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o
+	$(GPP) $(FLAGS) $(LIB) -o bin/main build/src/main.o build/src/log.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o -lcurl
 
 build/src/main.o : src/main.cpp
 	$(GPP) $(FLAGS) $(INCLUDE) -c -o build/src/main.o src/main.cpp

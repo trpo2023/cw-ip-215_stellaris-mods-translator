@@ -12,10 +12,10 @@ run :
 	./bin/main
 
 
-test : bin/mainTest.exe build/test/main.o build/test/log.o build/src/log.o build/test/parser.o build/src/parser.o
-	$(GPP) $(FLAGS) $(SRC_INCLUDE) -o bin/mainTest.exe build/test/main.o build/test/log.o build/src/log.o build/test/parser.o build/src/parser.o
+test : build/test/main.o build/test/log.o build/src/log.o build/test/parser.o build/src/parser.o
+	$(GPP) $(FLAGS) $(SRC_INCLUDE) -o bin/mainTest build/test/main.o build/test/log.o build/src/log.o build/test/parser.o build/src/parser.o
 
-build/src/main.o : test/main.cpp 
+build/test/main.o : test/main.cpp 
 	$(GPP) $(FLAGS) $(SRC_INCLUDE) -c -o build/test/main.o test/main.cpp
 
 build/test/log.o : test/log.cpp

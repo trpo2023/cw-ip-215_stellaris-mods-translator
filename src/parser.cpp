@@ -5,11 +5,11 @@ std::string translatePath(std::string path)
     std::string buferline = path;
     buferline.replace(buferline.rfind("english.yml"), 11, "russian.yml");
 
-    path.erase(path.rfind("\\"));
-    if(path.find("\\english") != std::string::npos)
+    path.erase(path.rfind("/"));
+    if(path.find("/english") != std::string::npos)
     {
-        path.replace(path.find("\\english"), 8, "\\russian");
-        buferline.replace(buferline.find("\\english"), 8, "\\russian");
+        path.replace(path.find("/english"), 8, "/russian");
+        buferline.replace(buferline.find("/english"), 8, "/russian");
     }
     std::filesystem::create_directory(path);
 

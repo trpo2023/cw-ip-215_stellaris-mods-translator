@@ -1,36 +1,27 @@
-GPP = g++
-FLAGS = -Wall
-INCLUDE = -I/usr/include
-LIB = -L/usr/lib/x86_64-linux-gnu
+CC = g++
+CFLAGS = -c -Wall
+LIB = -lcurl
+SRC_DIR = src
+TEST_DIR = test
+BUILD_DIR = build
+BIN_DIR = bin
+MAIN_BUILD = build/src/main.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o build/src/log.o
+TEST_BUILD = build/test/main.o build/test/parser.o build/test/fileLocalise.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o
 
-main : build/src/main.o build/src/log.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o
-	$(GPP) $(FLAGS) $(LIB) -o bin/main build/src/main.o build/src/log.o build/src/parser.o build/src/fileLocalise.o build/src/translate.o -lcurl
-	./bin/main
+main: $(BIN_DIR)/main
 
-build/src/main.o : src/main.cpp
-	$(GPP) $(FLAGS) $(INCLUDE) -c -o build/src/main.o src/main.cpp
+test: $(BIN_DIR)/test
 
-build/src/log.o : src/log.cpp
-	$(GPP) $(FLAGS) -c -o build/src/log.o src/log.cpp
+$(BIN_DIR)/main: $(MAIN_BUILD)
+	$(CC) $^ -o $@ $(LIB)
+	./$(BIN_DIR)/main
 
-build/src/parser.o : src/parser.cpp
-	$(GPP) $(FLAGS) -c -o build/src/parser.o src/parser.cpp
+$(BIN_DIR)/test: $(TEST_BUILD)
+	$(CC) $^ -o $@ $(LIB)
+	./$(BIN_DIR)/test
 
-build/src/fileLocalise.o : src/fileLocalise.cpp
-	$(GPP) $(FLAGS) $(INCLUDE) -c -o build/src/fileLocalise.o src/fileLocalise.cpp
+$(BUILD_DIR)/$(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) $(CFLAGS) $< -o $@
 
-build/src/translate.o : src/translate.cpp
-	$(GPP) $(FLAGS) $(INCLUDE) -c -o build/src/translate.o src/translate.cpp
-
-test : build/test/main.o build/test/parser.o build/src/parser.o build/test/fileLocalise.o build/src/fileLocalise.o build/src/translate.o
-	$(GPP) $(FLAGS) -o bin/mainTest build/test/main.o build/test/parser.o build/src/parser.o build/test/fileLocalise.o build/src/fileLocalise.o build/src/translate.o -lcurl
-	./bin/mainTest
-
-build/test/main.o : test/main.cpp 
-	$(GPP) $(FLAGS) -c -o build/test/main.o test/main.cpp
-
-build/test/parser.o : test/parser.cpp
-	$(GPP) $(FLAGS) -c -o build/test/parser.o test/parser.cpp
-
-build/test/fileLocalise.o : test/fileLocalise.cpp
-	$(GPP) $(FLAGS) -c -o build/test/fileLocalise.o test/fileLocalise.cpp
+$(BUILD_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.cpp
+	$(CC) $(CFLAGS) $< -o $@

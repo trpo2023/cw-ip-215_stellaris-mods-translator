@@ -25,3 +25,6 @@ $(BUILD_DIR)/$(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 $(BUILD_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.cpp
 	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	find $(BUILD_DIR)/$(TEST_DIR) $(BUILD_DIR)/$(SRC_DIR) $(BIN_DIR) -type f ! -name ".keep" -delete 2>/dev/null || true

@@ -26,7 +26,7 @@ CTEST(localise_tests, autor_file)
     ASSERT_EQUAL(FILE_TRANSLATED_BY_MOD_CREATOR, localise(autor_test, "0", 1));
 }
 
-CTEST(localise_tests, file_exist)
+CTEST(localise_tests, file_exists)
 {
     paths exist_test = {"test/localiseTests/test_l_english.yml", "test/localiseTests/autor_l_russian.yml"};
     ASSERT_EQUAL(FILE_EXIST, localise(exist_test, "0", 0));

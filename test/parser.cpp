@@ -2,7 +2,7 @@
 
 #include "../thirdparty/ctest.h"
 
-CTEST(directory_tests, parser_test)
+CTEST(parser_test, vector_fill)
 {
     std::vector<paths> outputPathsArray;
     Parser(outputPathsArray, "test/parserTests");

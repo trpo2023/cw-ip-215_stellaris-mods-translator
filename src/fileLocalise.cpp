@@ -20,8 +20,8 @@ int localise(paths path, std::string apiKey, int workingType)
 
         while(getline(exist, buferline))
             for(char ch : buferline)
-                for(char rusCh : "йцукенгшщзхъфывапролджэячсмитьбюё")
-                    if(ch == rusCh) return FILE_TRANSLATED_BY_MOD_CREATOR;
+                if(ch >= '\xd0' && ch <= '\xef')
+                    return FILE_TRANSLATED_BY_MOD_CREATOR;
     }
 
     std::ofstream localised(path.translatePath);

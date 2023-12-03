@@ -13,6 +13,7 @@ class Translator : public Localisator
 
 public:
     Translator(std::vector<std::string> files, std::string apiKey);
+    ~Translator();
     bool localise() override;
 };
 

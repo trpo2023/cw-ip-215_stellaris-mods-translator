@@ -6,6 +6,11 @@ Translator::Translator(std::vector<std::string> files, std::string apiKey) : Loc
     db = new DataBase("path");
 }
 
+Translator::~Translator()
+{
+    delete db;
+}
+
 bool Translator::localise()
 {
     if (!createFolders())

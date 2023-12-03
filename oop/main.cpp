@@ -5,6 +5,7 @@
 
 int main()
 {
+    std::cout << "Input mod path: ";
     std::string path;
     std::cin >> path;
     Parser parser(path);

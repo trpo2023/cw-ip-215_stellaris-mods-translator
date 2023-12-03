@@ -3,7 +3,6 @@ project(StellarisMT)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-file(GLOB SOURCE_FILES "oop/*.cpp")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
-add_executable(StellarisMT ${SOURCE_FILES})
+add_executable(StellarisMT oop/main.cpp oop/mod.cpp oop/parser.cpp oop/localisator.cpp)

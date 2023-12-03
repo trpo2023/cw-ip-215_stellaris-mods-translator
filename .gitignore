@@ -1,7 +1,7 @@
 .vscode
 *.exe
 *.o
-.CMakeFiles
+CMakeFiles
 *.ninja
 *.ninja_deps
 *.ninja_log

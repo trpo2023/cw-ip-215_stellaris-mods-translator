@@ -1,18 +1,9 @@
 #include "translator.hpp"
 
-void Translator::connect()
-{
-
-}
-
-std::string Translator::translate(std::string str)
-{
-    return str;
-}
-
 Translator::Translator(std::vector<std::string> files, std::string apiKey) : Localisator(files)
 {
     this->apiKey = apiKey;
+    db = new DataBase("path");
 }
 
 bool Translator::localise()
@@ -46,8 +37,20 @@ bool Translator::localise()
             }
             int lastQuote = buferline.find_last_of('\"');
 
+            std::string text = buferline.substr(firstQuote + 1, lastQuote - firstQuote - 1);
+            std::string translation;
+            
+            if(db->check(text))
+                translation = db->getTranslation(text);
+
+            else
+            {
+                translation = translate(text);
+                db->add(text, translation);
+            }
+
             localised << buferline.substr(0, firstQuote + 1)
-                      << translate(buferline.substr(firstQuote + 1, lastQuote - firstQuote - 1))
+                      << translation
                       << buferline.substr(lastQuote, buferline.length() - lastQuote + 1) << "\n";
         }
     }

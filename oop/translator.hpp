@@ -2,10 +2,12 @@
 #define H_TRANSLATOR
 
 #include "localisator.hpp"
+#include "database.hpp"
 
 class Translator : public Localisator
 {
     std::string apiKey;
+    DataBase *db;
     void connect();
     std::string translate(std::string str);
 

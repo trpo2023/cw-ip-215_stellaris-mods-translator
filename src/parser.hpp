@@ -8,15 +8,12 @@
 
 class Parser
 {
-    std::string path;
-
-    bool isTranslatable();
+    bool isTranslatable(std::string path);
     int locType(std::string file);
     void fillFiles(std::vector<std::string> &files, std::filesystem::path path);
 
 public:
-    void setPath(std::string path);
-    Mod parse();
+    Mod parse(std::string path);
 };
 
 #endif

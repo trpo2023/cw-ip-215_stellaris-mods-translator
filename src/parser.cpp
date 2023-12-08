@@ -1,11 +1,6 @@
 #include "parser.hpp"
 
-void Parser::setPath(std::string path)
-{
-    this->path = path;
-}
-
-bool Parser::isTranslatable()
+bool Parser::isTranslatable(std::string path)
 {
     for (auto &entry : std::filesystem::directory_iterator(path))
         if (entry.path().string().find("localisation") != std::string::npos)
@@ -51,14 +46,14 @@ void Parser::fillFiles(std::vector<std::string> &files, std::filesystem::path pa
     }
 }
 
-Mod Parser::parse()
+Mod Parser::parse(std::string path)
 {
     if (!std::filesystem::exists(path))
         throw std::runtime_error("Invalid path");
 
     int type;
     std::vector<std::string> files;
-    if (!isTranslatable())
+    if (!isTranslatable(path))
         type = UNTRANSLATABLE;
 
     else

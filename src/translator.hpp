@@ -15,7 +15,7 @@ class Translator : public Localisator
 public:
     Translator(std::string apiKey);
     ~Translator();
-    int localise() override;
+    int localise(Mod mod) override;
 };
 
 #endif

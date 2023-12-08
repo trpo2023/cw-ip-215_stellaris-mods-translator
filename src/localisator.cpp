@@ -1,13 +1,5 @@
 #include "localisator.hpp"
 
-void Localisator::setMod(Mod mod)
-{
-    for (auto &file : mod.getFiles())
-        this->files.insert(std::pair<std::string, std::string>(file, ""));
-
-    locType = mod.getLocType();
-}
-
 std::map<std::string, std::string> Localisator::getFiles()
 {
     return files;
@@ -33,8 +25,13 @@ void Localisator::createFolders()
     }
 }
 
-int Localisator::localise()
+int Localisator::localise(Mod mod)
 {
+    for (auto &file : mod.getFiles())
+        this->files.insert(std::pair<std::string, std::string>(file, ""));
+
+    locType = mod.getLocType();
+
     if (locType == TRANSLATED || locType == UNTRANSLATABLE)
         return locType;
 

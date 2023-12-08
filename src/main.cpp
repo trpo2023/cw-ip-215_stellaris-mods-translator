@@ -10,12 +10,10 @@ int main()
     std::cin >> path;
 
     Parser parser;
-    parser.setPath(path);
-    Mod mod = parser.parse();
+    Mod mod = parser.parse(path);
 
     Localisator localisator;
-    localisator.setMod(mod);
-    int code = localisator.localise();
+    int code = localisator.localise(mod);
     switch (code)
     {
     case TRANSLATED:

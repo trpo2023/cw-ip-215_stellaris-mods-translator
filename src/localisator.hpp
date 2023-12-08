@@ -14,11 +14,10 @@ class Localisator
     int locType;
 
 public:
-    void setMod(Mod mod);
     std::map<std::string, std::string> getFiles();
     int getLocType();
     void createFolders();
-    virtual int localise();
+    virtual int localise(Mod mod);
 };
 
 #endif

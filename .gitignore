@@ -1,9 +1,3 @@
 .vscode
 *.exe
 *.o
-CMakeFiles
-*.ninja
-*.ninja_deps
-*.ninja_log
-*.cmake
-CMakeCache.txt

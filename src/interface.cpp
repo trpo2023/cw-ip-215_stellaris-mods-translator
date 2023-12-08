@@ -177,12 +177,22 @@ void Interface::mainLoop()
             {
                 mod = parser.parse(path);
                 path.clear();
-                modDisplay.setName(mod.getName());
-                modDisplay.setImage(mod.getImage());
-                modDisplay.setLocType(mod.convertLocType());
+                if (mod.getLocType() > -1)
+                {
+                    modDisplay.setName(mod.getName());
+                    modDisplay.setImage(mod.getImage());
+                    modDisplay.setLocType(mod.convertLocType());
+                }
+
+                else
+                {
+                    modDisplay.setName("incorrect input");
+                    modDisplay.setImage("resources\\error.jpg");
+                    modDisplay.setLocType("incorrect input");
+                }
             }
 
-            if(code > -1)
+            if (code > -1)
             {
                 mod.setLocType(code);
                 modDisplay.setLocType(mod.convertLocType());

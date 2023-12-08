@@ -1,6 +1,9 @@
 #include "mod.hpp"
 
-Mod::Mod() {}
+Mod::Mod()
+{
+    locType = -1;
+}
 
 Mod::Mod(std::string name, std::string image, int locType, std::vector<std::string> files)
 {
@@ -50,7 +53,7 @@ std::string Mod::convertLocType()
     case TRANSLATED:
         return "the mod has already been translated by the author";
 
-    default: return "invalid localisation type";
+    default: return "incorrect input";
     }
 }
 

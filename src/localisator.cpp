@@ -5,11 +5,6 @@ std::map<std::string, std::string> Localisator::getFiles()
     return files;
 }
 
-int Localisator::getLocType()
-{
-    return locType;
-}
-
 void Localisator::createFolders()
 {
     for (auto &file : files)
@@ -27,13 +22,11 @@ void Localisator::createFolders()
 
 int Localisator::localise(Mod mod)
 {
+    if (mod.getLocType() == TRANSLATED || mod.getLocType() == UNTRANSLATABLE)
+        return mod.getLocType();
+
     for (auto &file : mod.getFiles())
         this->files.insert(std::pair<std::string, std::string>(file, ""));
-
-    locType = mod.getLocType();
-
-    if (locType == TRANSLATED || locType == UNTRANSLATABLE)
-        return locType;
 
     createFolders();
 

@@ -16,7 +16,7 @@ class Title
 {
     sf::RectangleShape title;
     sf::Texture texture;
-    sf::Text titleText;
+    sf::Text text;
 
 public:
     Title(sf::Vector2f position, sf::Vector2f size);
@@ -47,7 +47,7 @@ class Button
     sf::RectangleShape button;
     sf::Texture texture;
     sf::Texture textureSelected;
-    sf::Text buttonText;
+    sf::Text text;
 
 public:
     Button(sf::Vector2f position, sf::Vector2f size, std::string str);

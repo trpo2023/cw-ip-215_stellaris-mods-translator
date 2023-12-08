@@ -7,19 +7,19 @@ Title::Title(sf::Vector2f position, sf::Vector2f size)
     title.setPosition(position);
     title.setSize(size);
 
-    titleText.setString("STELLARIS MOD TRANSLATOR");
-    titleText.setFont(font);
-    titleText.setCharacterSize(50);
-    titleText.setLetterSpacing(3);
-    titleText.setOrigin(titleText.getLocalBounds().left + titleText.getLocalBounds().width / 2.0f,
-                        titleText.getLocalBounds().top + titleText.getLocalBounds().height / 2.0f);
-    titleText.setPosition(sf::Vector2f(position.x + size.x / 2.0f, position.y + size.y / 2.0f));
+    text.setString("STELLARIS MOD TRANSLATOR");
+    text.setFont(font);
+    text.setCharacterSize(50);
+    text.setLetterSpacing(3);
+    text.setOrigin(text.getLocalBounds().left + text.getLocalBounds().width / 2.0f,
+                   text.getLocalBounds().top + text.getLocalBounds().height / 2.0f);
+    text.setPosition(sf::Vector2f(position.x + size.x / 2.0f, position.y + size.y / 2.0f));
 }
 
 void Title::draw(sf::RenderWindow &window)
 {
     window.draw(title);
-    window.draw(titleText);
+    window.draw(text);
 }
 
 ModDisplay::ModDisplay(sf::Vector2f position, sf::Vector2f size)
@@ -76,12 +76,12 @@ Button::Button(sf::Vector2f position, sf::Vector2f size, std::string str)
     button.setSize(size);
     button.setTexture(&texture);
 
-    buttonText.setString(str);
-    buttonText.setFont(font);
-    buttonText.setCharacterSize(40);
-    buttonText.setOrigin(buttonText.getLocalBounds().left + buttonText.getLocalBounds().width / 2.0f,
-                         buttonText.getLocalBounds().top + buttonText.getLocalBounds().height / 2.0f);
-    buttonText.setPosition(sf::Vector2f(position.x + size.x / 2.0f, position.y + size.y / 2.0f));
+    text.setString(str);
+    text.setFont(font);
+    text.setCharacterSize(40);
+    text.setOrigin(text.getLocalBounds().left + text.getLocalBounds().width / 2.0f,
+                   text.getLocalBounds().top + text.getLocalBounds().height / 2.0f);
+    text.setPosition(sf::Vector2f(position.x + size.x / 2.0f, position.y + size.y / 2.0f));
 }
 
 void Button::handleEventInput(sf::Event event, sf::RenderWindow &window, std::string &path)
@@ -115,7 +115,7 @@ void Button::handleEventLocalise(sf::Event event, sf::RenderWindow &window, Loca
 void Button::draw(sf::RenderWindow &window)
 {
     window.draw(button);
-    window.draw(buttonText);
+    window.draw(text);
 }
 
 std::string Interface::inputMod()

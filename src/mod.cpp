@@ -1,5 +1,7 @@
 #include "mod.hpp"
 
+Mod::Mod() {}
+
 Mod::Mod(std::string name, std::string image, int locType, std::vector<std::string> files)
 {
     this->name = name;
@@ -25,6 +27,31 @@ int Mod::getLocType()
 void Mod::setLocType(int locType)
 {
     this->locType = locType;
+}
+
+std::string Mod::convertLocType()
+{
+    int type = getLocType();
+
+    switch (type)
+    {
+    case UNTRANSLATABLE:
+        return "the mod doesn't need translation";
+
+    case NOT_TRANSLATED:
+        return "the mod is not translated";
+
+    case AUTO_LOCALISED:
+        return "the mod localised automatically";
+
+    case AUTO_TRANSLATED:
+        return "the mod translated automatically";
+        
+    case TRANSLATED:
+        return "the mod has already been translated by the author";
+
+    default: return "invalid localisation type";
+    }
 }
 
 std::vector<std::string> Mod::getFiles()

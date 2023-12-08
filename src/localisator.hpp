@@ -6,7 +6,6 @@
 #include <map>
 #include <fstream>
 #include <filesystem>
-#include <algorithm>
 
 class Localisator
 {

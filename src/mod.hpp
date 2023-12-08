@@ -18,6 +18,7 @@ class Mod
     std::vector<std::string> files;
 
 public:
+    Mod();
     Mod(std::string name,
         std::string image,
         int locType,
@@ -27,6 +28,7 @@ public:
     std::string getImage();
     int getLocType();
     void setLocType(int locType);
+    std::string convertLocType();
     std::vector<std::string> getFiles();
 };
 

@@ -1,1 +1,0 @@
-Stellaris Mods Translator

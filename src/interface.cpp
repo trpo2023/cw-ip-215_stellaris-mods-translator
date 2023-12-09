@@ -112,6 +112,20 @@ void Button::handleEventLocalise(sf::Event event, sf::RenderWindow &window, Loca
         button.setTexture(&texture);
 }
 
+void Button::handleEventTranslate(sf::Event event, sf::RenderWindow &window, Translator translator, Mod mod, int &code)
+{
+    if (button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,
+                                          sf::Mouse::getPosition(window).y))
+    {
+        button.setTexture(&textureSelected);
+        if (event.type == sf::Event::MouseButtonPressed)
+            code = translator.localise(mod);
+    }
+
+    else
+        button.setTexture(&texture);
+}
+
 void Button::draw(sf::RenderWindow &window)
 {
     window.draw(button);
@@ -124,6 +138,14 @@ std::string Interface::inputMod()
     std::string path;
     std::cin >> path;
     return path;
+}
+
+std::string Interface::inputKey()
+{
+    std::cout << "Input API key: ";
+    std::string key;
+    std::cin >> key;
+    return key;
 }
 
 Interact::Interact(sf::Vector2f position, sf::Vector2f size)
@@ -161,6 +183,7 @@ void Interface::mainLoop()
     Parser parser;
     Mod mod;
     Localisator localisator;
+    Translator translator;
     int code = -1;
     while (window.isOpen())
     {
@@ -172,6 +195,7 @@ void Interface::mainLoop()
 
             interact.input.handleEventInput(event, window, path);
             interact.localise.handleEventLocalise(event, window, localisator, mod, code);
+            interact.translate.handleEventLocalise(event, window, translator, mod, code);
 
             if (!path.empty())
             {

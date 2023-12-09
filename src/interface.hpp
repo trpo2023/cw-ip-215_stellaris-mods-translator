@@ -3,6 +3,7 @@
 
 #include "parser.hpp"
 #include "localisator.hpp"
+#include "translator.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -54,6 +55,7 @@ public:
 
     void handleEventInput(sf::Event event, sf::RenderWindow &window, std::string &path);
     void handleEventLocalise(sf::Event event, sf::RenderWindow &window, Localisator localisator, Mod mod, int &code);
+    void handleEventTranslate(sf::Event event, sf::RenderWindow &window, Translator translator, Mod mod, int &code);
     void draw(sf::RenderWindow &window);
 };
 
@@ -84,6 +86,7 @@ class Interface
 public:
     Interface();
     
+    static std::string inputKey();
     static std::string inputMod();
     void mainLoop();
 };

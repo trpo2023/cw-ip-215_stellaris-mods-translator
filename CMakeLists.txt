@@ -4,4 +4,4 @@ project(StellarisMT)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
 add_executable(StellarisMT src/interface.cpp src/mod.cpp src/parser.cpp src/localisator.cpp src/translator.cpp src/database.cpp)
 
-target_link_libraries(StellarisMT sfml-graphics sfml-window sfml-system -lcurl -lsqlite3)
+target_link_libraries(StellarisMT sfml-graphics sfml-window sfml-system curl sqlite3)

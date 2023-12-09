@@ -11,13 +11,13 @@ class Translator : public Localisator
     std::string apiKey;
     DataBase *db;
     CURL *curl;
-    void connect();
-    void disconnect();
     std::string translate(std::string str);
 
 public:
     Translator();
     ~Translator();
+    void connect();
+    std::string getKey();
     void setKey(std::string apiKey);
     int localise(Mod mod) override;
 };

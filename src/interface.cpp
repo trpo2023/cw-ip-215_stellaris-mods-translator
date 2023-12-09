@@ -119,7 +119,14 @@ void Button::handleEventTranslate(sf::Event event, sf::RenderWindow &window, Tra
     {
         button.setTexture(&textureSelected);
         if (event.type == sf::Event::MouseButtonPressed)
+        {
+            translator.connect();
+
+            if (translator.getKey().empty())
+                translator.setKey(Interface::inputKey());
+
             code = translator.localise(mod);
+        }
     }
 
     else
@@ -236,6 +243,6 @@ void Interface::mainLoop()
 int main()
 {
     font.loadFromFile("resources\\Orbitron-Regular.ttf");
-    Interface interface;
-    interface.mainLoop();
+    Interface ui;
+    ui.mainLoop();
 }

@@ -6,12 +6,6 @@ void Translator::connect()
     curl = curl_easy_init();
 }
 
-void Translator::disconnect()
-{
-    curl_easy_cleanup(curl);
-    curl_global_cleanup();
-}
-
 Translator::Translator()
 {
     db = new DataBase("translations.db");
@@ -20,6 +14,13 @@ Translator::Translator()
 Translator::~Translator()
 {
     delete db;
+    curl_easy_cleanup(curl);
+    curl_global_cleanup();
+}
+
+std::string Translator::getKey()
+{
+    return apiKey;
 }
 
 void Translator::setKey(std::string apiKey)
@@ -27,9 +28,38 @@ void Translator::setKey(std::string apiKey)
     this->apiKey = apiKey;
 }
 
+static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
+{
+    ((std::string *)userp)->append((char *)contents, size * nmemb);
+    return size * nmemb;
+}
+
 std::string Translator::translate(std::string str)
 {
-    return str;
+    curl_slist *headers = NULL;
+
+    std::string url = "https://translate.api.cloud.yandex.net/translate/v2/translate";
+    std::string fromLang = "en";
+    std::string toLang = "ru";
+
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, ("Authorization: Api-Key " + apiKey).c_str());
+
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+    std::string post_data = "{\"texts\":[\"" + str + "\"]," +
+                            "\"targetLanguageCode\":\"" + toLang + "\"," +
+                            "\"sourceLanguageCode\":\"" + fromLang + "\"}";
+
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+    curl_easy_perform(curl);
+    curl_slist_free_all(headers);
+
+    return str.substr(str.rfind(':') + 3, str.rfind('"') - str.rfind(':') - 3);
 }
 
 int Translator::localise(Mod mod)
@@ -63,10 +93,21 @@ int Translator::localise(Mod mod)
                 continue;
             }
             int lastQuote = buferline.find_last_of('\"');
+            std::string text = buferline.substr(firstQuote + 1, lastQuote - firstQuote - 1);
 
-            localised << buferline.substr(0, firstQuote + 1)
-                      << translate(buferline.substr(firstQuote + 1, lastQuote - firstQuote - 1))
-                      << buferline.substr(lastQuote, buferline.length() - lastQuote + 1) << "\n";
+            localised << buferline.substr(0, firstQuote + 1);
+
+            if (db->check(text))
+                localised << db->getTranslation(text);
+
+            else
+            {
+                std::string translated = translate(buferline.substr(firstQuote + 1, lastQuote - firstQuote - 1));
+                localised << translated;
+                db->add(text, translated);
+            }
+
+            localised << buferline.substr(lastQuote, buferline.length() - lastQuote + 1) << '\n';
         }
     }
 

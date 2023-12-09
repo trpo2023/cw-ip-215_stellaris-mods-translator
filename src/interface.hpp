@@ -53,9 +53,24 @@ class Button
 public:
     Button(sf::Vector2f position, sf::Vector2f size, std::string str);
 
-    void handleEventInput(sf::Event event, sf::RenderWindow &window, std::string &path);
+    void handleEventInput(sf::Event event, sf::RenderWindow &window, bool &inputPath);
     void handleEventLocalise(sf::Event event, sf::RenderWindow &window, Localisator localisator, Mod mod, int &code);
-    void handleEventTranslate(sf::Event event, sf::RenderWindow &window, Translator translator, Mod mod, int &code);
+    void handleEventTranslate(sf::Event event, sf::RenderWindow &window, bool &inputApi);
+    void draw(sf::RenderWindow &window);
+};
+
+class TextField
+{
+    sf::Texture texture;
+    sf::RectangleShape field;
+    sf::Text cursor;
+    sf::Clock clock;
+
+public:
+    sf::Text text;
+    TextField(sf::Vector2f position, sf::Vector2f size);
+
+    void handleEvent(sf::Event event, std::string &path, bool &enter, bool &input);
     void draw(sf::RenderWindow &window);
 };
 
@@ -65,12 +80,13 @@ class Interact
     sf::Texture texture;
 
 public:
-    Button input;
-    Button localise;
-    Button translate;
+    Button inputButton;
+    Button localiseButton;
+    Button translateButton;
+    TextField textField;
 
     Interact(sf::Vector2f position, sf::Vector2f size);
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window, bool input, bool inputKey);
 };
 
 class Interface
@@ -85,9 +101,7 @@ class Interface
 
 public:
     Interface();
-    
-    static std::string inputKey();
-    static std::string inputMod();
+
     void mainLoop();
 };
 

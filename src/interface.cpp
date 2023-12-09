@@ -84,14 +84,14 @@ Button::Button(sf::Vector2f position, sf::Vector2f size, std::string str)
     text.setPosition(sf::Vector2f(position.x + size.x / 2.0f, position.y + size.y / 2.0f));
 }
 
-void Button::handleEventInput(sf::Event event, sf::RenderWindow &window, std::string &path)
+void Button::handleEventInput(sf::Event event, sf::RenderWindow &window, bool &inputPath)
 {
     if (button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,
                                           sf::Mouse::getPosition(window).y))
     {
         button.setTexture(&textureSelected);
         if (event.type == sf::Event::MouseButtonPressed)
-            path = Interface::inputMod();
+            inputPath = 1;
     }
 
     else
@@ -112,21 +112,14 @@ void Button::handleEventLocalise(sf::Event event, sf::RenderWindow &window, Loca
         button.setTexture(&texture);
 }
 
-void Button::handleEventTranslate(sf::Event event, sf::RenderWindow &window, Translator translator, Mod mod, int &code)
+void Button::handleEventTranslate(sf::Event event, sf::RenderWindow &window, bool &inputKey)
 {
     if (button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,
                                           sf::Mouse::getPosition(window).y))
     {
         button.setTexture(&textureSelected);
         if (event.type == sf::Event::MouseButtonPressed)
-        {
-            translator.connect();
-
-            if (translator.getKey().empty())
-                translator.setKey(Interface::inputKey());
-
-            code = translator.localise(mod);
-        }
+            inputKey = 1;
     }
 
     else
@@ -139,26 +132,79 @@ void Button::draw(sf::RenderWindow &window)
     window.draw(text);
 }
 
-std::string Interface::inputMod()
+TextField::TextField(sf::Vector2f position, sf::Vector2f size)
+    : text("", font, 25), cursor("|", font, 25)
 {
-    std::cout << "Input mod path: ";
-    std::string path;
-    std::cin >> path;
-    return path;
+    texture.loadFromFile("resources\\input.png");
+    field.setTexture(&texture);
+    field.setPosition(position);
+    field.setSize(size);
+    text.setPosition(position + sf::Vector2f(10, 10));
+    cursor.setPosition(position);
 }
 
-std::string Interface::inputKey()
+void TextField::handleEvent(sf::Event event, std::string &path, bool &enter, bool &input)
 {
-    std::cout << "Input API key: ";
-    std::string key;
-    std::cin >> key;
-    return key;
+    cursor.setPosition(text.getGlobalBounds().width + text.getPosition().x, text.getPosition().y);
+    if (event.type == sf::Event::TextEntered)
+    {
+        if (event.text.unicode == 8)
+        {
+            if (text.getString().getSize() > 0)
+            {
+                sf::String str = text.getString();
+                str.erase(str.getSize() - 1);
+                text.setString(str);
+            }
+        }
+
+        else if (event.text.unicode == 13)
+        {
+            enter = 1;
+            input = 0;
+            path = text.getString();
+            text.setString("");
+        }
+
+        else if (event.text.unicode == 22)
+        {
+            sf::String str = text.getString();
+            str += sf::Clipboard::getString();
+            text.setString(str);
+        }
+
+        else
+        {
+            sf::String str = text.getString();
+            str += event.text.unicode;
+            text.setString(str);
+        }
+    }
+
+    if (event.key.code == sf::Keyboard::Escape)
+    {
+        input = 0;
+        text.setString("");
+    }
+}
+
+void TextField::draw(sf::RenderWindow &window)
+{
+    window.draw(field);
+    window.draw(text);
+    if (clock.getElapsedTime().asSeconds() > 0.5f)
+    {
+        window.draw(cursor);
+        if (clock.getElapsedTime().asSeconds() > 1.0f)
+            clock.restart();
+    }
 }
 
 Interact::Interact(sf::Vector2f position, sf::Vector2f size)
-    : input(sf::Vector2f(position.x + 30, position.y + 20), sf::Vector2f(280, 105), "input"),
-      localise(sf::Vector2f(size.x / 2 - 140 + 40, position.y + 20), sf::Vector2f(280, 105), "localise"),
-      translate(sf::Vector2f(size.x + -310 + 40, position.y + 20), sf::Vector2f(280, 105), "translate")
+    : inputButton(sf::Vector2f(position.x + 30, position.y + 20), sf::Vector2f(280, 105), "input"),
+      localiseButton(sf::Vector2f(size.x / 2 - 140 + 40, position.y + 20), sf::Vector2f(280, 105), "localise"),
+      translateButton(sf::Vector2f(size.x + -310 + 40, position.y + 20), sf::Vector2f(280, 105), "translate"),
+      textField(sf::Vector2f(position.x + 30, position.y + 50), sf::Vector2f(1140, 50))
 {
     texture.loadFromFile("resources\\interact-bg.png");
     interact.setTexture(&texture);
@@ -166,12 +212,19 @@ Interact::Interact(sf::Vector2f position, sf::Vector2f size)
     interact.setSize(size);
 }
 
-void Interact::draw(sf::RenderWindow &window)
+void Interact::draw(sf::RenderWindow &window, bool inputPath, bool inputKey)
 {
     window.draw(interact);
-    input.draw(window);
-    localise.draw(window);
-    translate.draw(window);
+
+    if (inputPath || inputKey)
+        textField.draw(window);
+
+    else
+    {
+        inputButton.draw(window);
+        localiseButton.draw(window);
+        translateButton.draw(window);
+    }
 }
 
 Interface::Interface()
@@ -187,11 +240,15 @@ Interface::Interface()
 void Interface::mainLoop()
 {
     std::string path;
+    std::string key;
     Parser parser;
     Mod mod;
     Localisator localisator;
     Translator translator;
     int code = -1;
+    bool inputPath = 0;
+    bool inputKey = 0;
+    bool enter = 0;
     while (window.isOpen())
     {
         sf::Event event;
@@ -200,14 +257,33 @@ void Interface::mainLoop()
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            interact.input.handleEventInput(event, window, path);
-            if (mod.getLocType() > 1)
+            else if (inputPath)
+                interact.textField.handleEvent(event, path, enter, inputPath);
+
+            else if (inputKey)
+                interact.textField.handleEvent(event, key, enter, inputKey);
+
+            else
             {
-                interact.localise.handleEventLocalise(event, window, localisator, mod, code);
-                interact.translate.handleEventLocalise(event, window, translator, mod, code);
+                interact.inputButton.handleEventInput(event, window, inputPath);
+                if (mod.getLocType() > 1)
+                {
+                    interact.localiseButton.handleEventLocalise(event, window, localisator, mod, code);
+                    interact.translateButton.handleEventTranslate(event, window, inputKey);
+                }
             }
 
-            if (!path.empty())
+            if (!key.empty() && enter)
+            {
+                translator.connect();
+
+                if (translator.getKey().empty())
+                    translator.setKey(key);
+
+                code = translator.localise(mod);
+            }
+
+            if (!path.empty() && enter)
             {
                 mod = parser.parse(path);
                 path.clear();
@@ -238,7 +314,7 @@ void Interface::mainLoop()
         window.draw(sprite);
         title.draw(window);
         modDisplay.draw(window);
-        interact.draw(window);
+        interact.draw(window, inputPath, inputKey);
         window.display();
     }
 }

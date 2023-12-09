@@ -39,19 +39,19 @@ std::string Mod::convertLocType()
     switch (type)
     {
     case UNTRANSLATABLE:
-        return "the mod doesn't need translation";
+        return "this mod doesn't need translation";
 
     case NOT_TRANSLATED:
-        return "the mod is not translated";
+        return "this mod is not translated";
 
     case AUTO_LOCALISED:
-        return "the mod localised automatically";
+        return "this mod localised automatically";
 
     case AUTO_TRANSLATED:
-        return "the mod translated automatically";
+        return "this mod translated automatically";
         
     case TRANSLATED:
-        return "the mod has already been translated by the author";
+        return "this mod has already been translated by the author";
 
     default: return "incorrect input";
     }

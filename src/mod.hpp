@@ -19,10 +19,7 @@ class Mod
 
 public:
     Mod();
-    Mod(std::string name,
-        std::string image,
-        int locType,
-        std::vector<std::string> files);
+    Mod(std::string name, std::string image, int locType, std::vector<std::string> files);
 
     std::string getName();
     std::string getImage();

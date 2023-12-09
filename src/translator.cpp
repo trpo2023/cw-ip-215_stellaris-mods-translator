@@ -18,11 +18,6 @@ Translator::~Translator()
     curl_global_cleanup();
 }
 
-std::string Translator::getKey()
-{
-    return apiKey;
-}
-
 void Translator::setKey(std::string apiKey)
 {
     this->apiKey = apiKey;

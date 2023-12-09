@@ -17,7 +17,6 @@ public:
     Translator();
     ~Translator();
     void connect();
-    std::string getKey();
     void setKey(std::string apiKey);
     int localise(Mod mod) override;
 };

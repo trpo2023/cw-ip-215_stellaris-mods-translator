@@ -67,7 +67,7 @@ class TextField
 public:
     TextField(sf::Vector2f position, sf::Vector2f size);
 
-    void handleEvent(sf::Event event, std::string &path, bool &enter, bool &input);
+    void handleEvent(sf::Event event, std::string &path, bool &input);
     void draw(sf::RenderWindow &window);
 };
 

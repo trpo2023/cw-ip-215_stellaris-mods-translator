@@ -144,7 +144,7 @@ TextField::TextField(sf::Vector2f position, sf::Vector2f size)
     cursor.setPosition(position);
 }
 
-void TextField::handleEvent(sf::Event event, std::string &text, bool &enter, bool &input)
+void TextField::handleEvent(sf::Event event, std::string &text, bool &input)
 {
     cursor.setPosition(this->text.getGlobalBounds().width + this->text.getPosition().x, this->text.getPosition().y);
     if (event.type == sf::Event::TextEntered)
@@ -161,7 +161,6 @@ void TextField::handleEvent(sf::Event event, std::string &text, bool &enter, boo
 
         else if (event.text.unicode == 13)
         {
-            enter = 1;
             input = 0;
             text = this->text.getString();
             this->text.setString("");
@@ -251,7 +250,6 @@ void Interface::mainLoop()
     int code = -1;
     bool inputPath = 0;
     bool inputKey = 0;
-    bool enter = 0;
 
     while (window.isOpen())
     {
@@ -262,10 +260,10 @@ void Interface::mainLoop()
                 window.close();
 
             else if (inputPath)
-                interact.textField.handleEvent(event, path, enter, inputPath);
+                interact.textField.handleEvent(event, path, inputPath);
 
             else if (inputKey)
-                interact.textField.handleEvent(event, key, enter, inputKey);
+                interact.textField.handleEvent(event, key, inputKey);
 
             else
             {
@@ -277,20 +275,20 @@ void Interface::mainLoop()
                 }
             }
 
-            if (!key.empty() && enter)
+            if (!key.empty())
             {
+                key.clear();
+
                 translator.connect();
-
-                if (translator.getKey().empty())
-                    translator.setKey(key);
-
+                translator.setKey(key);
                 code = translator.localise(mod);
             }
 
-            if (!path.empty() && enter)
+            if (!path.empty())
             {
                 mod = parser.parse(path);
                 path.clear();
+
                 if (mod.getLocType() > -1)
                 {
                     modDisplay.setName(mod.getName());

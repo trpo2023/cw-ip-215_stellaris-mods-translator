@@ -5,7 +5,7 @@ std::map<std::string, std::string> Localisator::getFiles()
     return files;
 }
 
-int Localisator::addPaths(Mod mod)
+void Localisator::addPaths(Mod mod)
 {
     for (auto &file : mod.getFiles())
         this->files.insert(std::pair<std::string, std::string>(file, ""));

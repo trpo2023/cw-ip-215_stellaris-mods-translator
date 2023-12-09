@@ -68,7 +68,10 @@ Mod Parser::parse(std::string path)
         type = locType(buferline);
     }
 
-    std::string image = path + "\\" + "thumbnail.png";
+    std::string image;
+    for (auto &entry : std::filesystem::directory_iterator(path))
+        if (entry.path().string().find("thumbnail") != std::string::npos)
+            image = entry.path().string();
 
     std::string name;
     std::string descriptor = path + "\\" + "descriptor.mod";

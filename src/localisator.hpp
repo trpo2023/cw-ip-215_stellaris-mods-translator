@@ -13,7 +13,7 @@ class Localisator
 
 public:
     std::map<std::string, std::string> getFiles();
-    int addPaths(Mod mod);
+    void addPaths(Mod mod);
     void createFolders();
     virtual int localise(Mod mod);
 };

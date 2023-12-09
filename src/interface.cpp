@@ -28,6 +28,9 @@ ModDisplay::ModDisplay(sf::Vector2f position, sf::Vector2f size)
     bg.setTexture(&bgTexture);
     bg.setPosition(position);
     bg.setSize(size);
+    name.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f, bg.getPosition().y + 40));
+    image.setPosition(sf::Vector2f(bg.getPosition().x + 10, bg.getPosition().y + 70));
+    locType.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f + 115, bg.getPosition().y + 185));
 }
 
 void ModDisplay::setName(std::string name)
@@ -37,17 +40,15 @@ void ModDisplay::setName(std::string name)
     this->name.setCharacterSize(30);
     this->name.setOrigin(this->name.getLocalBounds().left + this->name.getLocalBounds().width / 2.0f,
                          this->name.getLocalBounds().top + this->name.getLocalBounds().height / 2.0f);
-    this->name.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f, bg.getPosition().y + 40));
 }
 
 void ModDisplay::setImage(std::string image)
 {
     imageTexture.loadFromFile(image);
     this->image.setTexture(imageTexture);
-    this->image.setTexture(imageTexture);
-    this->image.setScale(210 / this->image.getLocalBounds().width,
-                         210 / this->image.getLocalBounds().height);
-    this->image.setPosition(sf::Vector2f(bg.getPosition().x + 10, bg.getPosition().y + 70));
+    this->image.setTextureRect(sf::IntRect(0, 0, imageTexture.getSize().x, imageTexture.getSize().y));
+    this->image.setScale(210.0f / this->image.getLocalBounds().width,
+                         210.0f / this->image.getLocalBounds().height);
 }
 
 void ModDisplay::setLocType(std::string locType)
@@ -57,7 +58,6 @@ void ModDisplay::setLocType(std::string locType)
     this->locType.setCharacterSize(30);
     this->locType.setOrigin(this->locType.getLocalBounds().left + this->locType.getLocalBounds().width / 2.0f,
                             this->locType.getLocalBounds().top + this->locType.getLocalBounds().height / 2.0f);
-    this->locType.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f + 115, bg.getPosition().y + 185));
 }
 
 void ModDisplay::draw(sf::RenderWindow &window)
@@ -201,8 +201,11 @@ void Interface::mainLoop()
                 window.close();
 
             interact.input.handleEventInput(event, window, path);
-            interact.localise.handleEventLocalise(event, window, localisator, mod, code);
-            interact.translate.handleEventLocalise(event, window, translator, mod, code);
+            if (mod.getLocType() > 1)
+            {
+                interact.localise.handleEventLocalise(event, window, localisator, mod, code);
+                interact.translate.handleEventLocalise(event, window, translator, mod, code);
+            }
 
             if (!path.empty())
             {

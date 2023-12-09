@@ -5,10 +5,10 @@
 #include <vector>
 
 #define UNTRANSLATABLE 0
-#define NOT_TRANSLATED 1
+#define TRANSLATED 1
 #define AUTO_LOCALISED 2
 #define AUTO_TRANSLATED 3
-#define TRANSLATED 4
+#define NOT_TRANSLATED 4
 
 class Mod
 {

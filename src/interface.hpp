@@ -8,9 +8,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#define WIDTH 1280
-#define HEIGHT 720
-
 sf::Font font;
 
 class Title

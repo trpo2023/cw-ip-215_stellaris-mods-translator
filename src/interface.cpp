@@ -229,7 +229,7 @@ void Interact::draw(sf::RenderWindow &window, bool inputPath, bool inputKey)
 }
 
 Interface::Interface()
-    : window(sf::VideoMode(WIDTH, HEIGHT), "Stellaris Mod Translator"),
+    : window(sf::VideoMode(1280, 720), "Stellaris Mod Translator"),
       title(sf::Vector2f(40, 20), sf::Vector2f(1200, 200)),
       modDisplay(sf::Vector2f(40, 240), sf::Vector2f(1200, 295)),
       interact(sf::Vector2f(40, 555), sf::Vector2f(1200, 145))

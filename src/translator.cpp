@@ -1,5 +1,17 @@
 #include "translator.hpp"
 
+void Translator::connect()
+{
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl = curl_easy_init();
+}
+
+void Translator::disconnect()
+{
+    curl_easy_cleanup(curl);
+    curl_global_cleanup();
+}
+
 Translator::Translator()
 {
     db = new DataBase("translations.db");
@@ -13,6 +25,11 @@ Translator::~Translator()
 void Translator::setKey(std::string apiKey)
 {
     this->apiKey = apiKey;
+}
+
+std::string Translator::translate(std::string str)
+{
+    return str;
 }
 
 int Translator::localise(Mod mod)
@@ -39,9 +56,19 @@ int Translator::localise(Mod mod)
                 localised << "#Automatically translated";
             }
 
-            localised << buferline << '\n';
+            int firstQuote = buferline.find_first_of('\"');
+            if (firstQuote == std::string::npos)
+            {
+                localised << buferline;
+                continue;
+            }
+            int lastQuote = buferline.find_last_of('\"');
+
+            localised << buferline.substr(0, firstQuote + 1)
+                      << translate(buferline.substr(firstQuote + 1, lastQuote - firstQuote - 1))
+                      << buferline.substr(lastQuote, buferline.length() - lastQuote + 1) << "\n";
         }
     }
 
-    return AUTO_LOCALISED;
+    return AUTO_TRANSLATED;
 }

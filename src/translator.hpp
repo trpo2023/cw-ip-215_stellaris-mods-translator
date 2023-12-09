@@ -4,10 +4,13 @@
 #include "localisator.hpp"
 #include "database.hpp"
 
+#include <curl/curl.h>
+
 class Translator : public Localisator
 {
     std::string apiKey;
     DataBase *db;
+    CURL *curl;
     void connect();
     void disconnect();
     std::string translate(std::string str);

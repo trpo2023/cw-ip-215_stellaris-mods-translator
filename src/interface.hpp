@@ -29,8 +29,8 @@ class ModDisplay
 {
     sf::RectangleShape bg;
     sf::Texture bgTexture;
-    sf::Texture imageTexture;
     sf::Sprite image;
+    sf::Texture imageTexture;
     sf::Text name;
     sf::Text locType;
 
@@ -61,13 +61,13 @@ public:
 
 class TextField
 {
-    sf::Texture texture;
     sf::RectangleShape field;
-    sf::Text cursor;
+    sf::Texture texture;
     sf::Clock clock;
+    sf::Text cursor;
+    sf::Text text;
 
 public:
-    sf::Text text;
     TextField(sf::Vector2f position, sf::Vector2f size);
 
     void handleEvent(sf::Event event, std::string &path, bool &enter, bool &input);
@@ -92,8 +92,8 @@ public:
 class Interface
 {
     sf::RenderWindow window;
-    sf::Texture bg;
     sf::Sprite sprite;
+    sf::Texture bg;
 
     Title title;
     ModDisplay modDisplay;

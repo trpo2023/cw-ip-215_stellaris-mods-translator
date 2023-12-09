@@ -28,6 +28,7 @@ ModDisplay::ModDisplay(sf::Vector2f position, sf::Vector2f size)
     bg.setTexture(&bgTexture);
     bg.setPosition(position);
     bg.setSize(size);
+
     name.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f, bg.getPosition().y + 40));
     image.setPosition(sf::Vector2f(bg.getPosition().x + 10, bg.getPosition().y + 70));
     locType.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f + 115, bg.getPosition().y + 185));
@@ -72,9 +73,9 @@ Button::Button(sf::Vector2f position, sf::Vector2f size, std::string str)
 {
     texture.loadFromFile("resources\\main-button.png");
     textureSelected.loadFromFile("resources\\main-button-selected.png");
+    button.setTexture(&texture);
     button.setPosition(position);
     button.setSize(size);
-    button.setTexture(&texture);
 
     text.setString(str);
     text.setFont(font);
@@ -143,18 +144,18 @@ TextField::TextField(sf::Vector2f position, sf::Vector2f size)
     cursor.setPosition(position);
 }
 
-void TextField::handleEvent(sf::Event event, std::string &path, bool &enter, bool &input)
+void TextField::handleEvent(sf::Event event, std::string &text, bool &enter, bool &input)
 {
-    cursor.setPosition(text.getGlobalBounds().width + text.getPosition().x, text.getPosition().y);
+    cursor.setPosition(this->text.getGlobalBounds().width + this->text.getPosition().x, this->text.getPosition().y);
     if (event.type == sf::Event::TextEntered)
     {
         if (event.text.unicode == 8)
         {
-            if (text.getString().getSize() > 0)
+            if (this->text.getString().getSize() > 0)
             {
-                sf::String str = text.getString();
+                sf::String str = this->text.getString();
                 str.erase(str.getSize() - 1);
-                text.setString(str);
+                this->text.setString(str);
             }
         }
 
@@ -162,29 +163,29 @@ void TextField::handleEvent(sf::Event event, std::string &path, bool &enter, boo
         {
             enter = 1;
             input = 0;
-            path = text.getString();
-            text.setString("");
+            text = this->text.getString();
+            this->text.setString("");
         }
 
         else if (event.text.unicode == 22)
         {
-            sf::String str = text.getString();
+            sf::String str = this->text.getString();
             str += sf::Clipboard::getString();
-            text.setString(str);
+            this->text.setString(str);
         }
 
         else
         {
-            sf::String str = text.getString();
+            sf::String str = this->text.getString();
             str += event.text.unicode;
-            text.setString(str);
+            this->text.setString(str);
         }
     }
 
     if (event.key.code == sf::Keyboard::Escape)
     {
         input = 0;
-        text.setString("");
+        this->text.setString("");
     }
 }
 
@@ -241,14 +242,17 @@ void Interface::mainLoop()
 {
     std::string path;
     std::string key;
+
     Parser parser;
     Mod mod;
     Localisator localisator;
     Translator translator;
+
     int code = -1;
     bool inputPath = 0;
     bool inputKey = 0;
     bool enter = 0;
+
     while (window.isOpen())
     {
         sf::Event event;

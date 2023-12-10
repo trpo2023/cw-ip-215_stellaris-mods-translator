@@ -173,6 +173,11 @@ void TextField::handleEvent(sf::Event event, std::string &text, bool &input)
             this->text.setString(str);
             break;
 
+        case 26:
+            str = "";
+            this->text.setString(str);
+            break;
+
         default:
             str = this->text.getString();
             str += event.text.unicode;

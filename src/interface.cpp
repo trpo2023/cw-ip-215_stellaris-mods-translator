@@ -29,9 +29,14 @@ ModDisplay::ModDisplay(sf::Vector2f position, sf::Vector2f size)
     bg.setPosition(position);
     bg.setSize(size);
 
-    name.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f, bg.getPosition().y + 40));
-    image.setPosition(sf::Vector2f(bg.getPosition().x + 10, bg.getPosition().y + 70));
-    locType.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f + 115, bg.getPosition().y + 185));
+    name.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f,
+                                  bg.getPosition().y + 40));
+
+    image.setPosition(sf::Vector2f(bg.getPosition().x + 10,
+                                   bg.getPosition().y + 70));
+                                   
+    locType.setPosition(sf::Vector2f(bg.getPosition().x + bg.getSize().x / 2.0f + 115,
+                                     bg.getPosition().y + 185));
 }
 
 void ModDisplay::setName(std::string name)
@@ -146,7 +151,8 @@ TextField::TextField(sf::Vector2f position, sf::Vector2f size)
 
 void TextField::handleEvent(sf::Event event, std::string &text, bool &input)
 {
-    cursor.setPosition(this->text.getGlobalBounds().width + this->text.getPosition().x, this->text.getPosition().y);
+    cursor.setPosition(this->text.getGlobalBounds().width + this->text.getPosition().x,
+                       this->text.getPosition().y);
     if (event.type == sf::Event::TextEntered)
     {
         sf::String str;

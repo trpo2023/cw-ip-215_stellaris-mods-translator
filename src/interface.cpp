@@ -180,8 +180,7 @@ void TextField::handleEvent(sf::Event event, std::string &text, bool &input)
             break;
 
         case 26:
-            str = "";
-            this->text.setString(str);
+            this->text.setString("");
             break;
 
         default:

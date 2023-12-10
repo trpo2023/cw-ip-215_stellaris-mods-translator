@@ -8,7 +8,7 @@ class DataBase
 {
     sqlite3 *db;
     int exit;
-    char *errMsg = 0;
+    char *errMsg;
 
 public:
     DataBase(std::string path);

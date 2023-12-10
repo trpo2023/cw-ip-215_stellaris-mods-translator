@@ -9,7 +9,7 @@
 class Translator : public Localisator
 {
     std::string apiKey;
-    DataBase *db;
+    DataBase db;
     CURL *curl;
     std::string translate(std::string str);
 

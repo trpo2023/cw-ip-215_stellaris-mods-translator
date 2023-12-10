@@ -7,13 +7,10 @@ void Translator::connect()
 }
 
 Translator::Translator()
-{
-    db = new DataBase("translations.db");
-}
+    : db("translations.db") {}
 
 Translator::~Translator()
 {
-    delete db;
     curl_easy_cleanup(curl);
     curl_global_cleanup();
 }
@@ -92,14 +89,14 @@ int Translator::localise(Mod mod)
 
             localised << buferline.substr(0, firstQuote + 1);
 
-            if (db->check(text))
-                localised << db->getTranslation(text);
+            if (db.check(text))
+                localised << db.getTranslation(text);
 
             else
             {
                 std::string translated = translate(buferline.substr(firstQuote + 1, lastQuote - firstQuote - 1));
                 localised << translated;
-                db->add(text, translated);
+                db.add(text, translated);
             }
 
             localised << buferline.substr(lastQuote, buferline.length() - lastQuote + 1) << '\n';

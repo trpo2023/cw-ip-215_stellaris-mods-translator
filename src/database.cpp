@@ -1,5 +1,4 @@
 #include "database.hpp"
-#include <iostream>
 
 DataBase::DataBase(std::string path)
 {

@@ -2,7 +2,6 @@
 #define H_ITNERFACE
 
 #include "parser.hpp"
-#include "localisator.hpp"
 #include "translator.hpp"
 
 #include <SFML/Graphics.hpp>

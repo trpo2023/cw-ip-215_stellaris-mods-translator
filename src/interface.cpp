@@ -149,33 +149,32 @@ void TextField::handleEvent(sf::Event event, std::string &text, bool &input)
     cursor.setPosition(this->text.getGlobalBounds().width + this->text.getPosition().x, this->text.getPosition().y);
     if (event.type == sf::Event::TextEntered)
     {
-        if (event.text.unicode == 8)
+        sf::String str;
+        switch (event.text.unicode)
         {
+        case 8:
             if (this->text.getString().getSize() > 0)
             {
-                sf::String str = this->text.getString();
+                str = this->text.getString();
                 str.erase(str.getSize() - 1);
                 this->text.setString(str);
             }
-        }
+            break;
 
-        else if (event.text.unicode == 13)
-        {
+        case 13:
             input = 0;
             text = this->text.getString();
             this->text.setString("");
-        }
+            break;
 
-        else if (event.text.unicode == 22)
-        {
-            sf::String str = this->text.getString();
+        case 22:
+            str = this->text.getString();
             str += sf::Clipboard::getString();
             this->text.setString(str);
-        }
+            break;
 
-        else
-        {
-            sf::String str = this->text.getString();
+        default:
+            str = this->text.getString();
             str += event.text.unicode;
             this->text.setString(str);
         }
@@ -192,9 +191,11 @@ void TextField::draw(sf::RenderWindow &window)
 {
     window.draw(field);
     window.draw(text);
+
     if (clock.getElapsedTime().asSeconds() > 0.5f)
     {
         window.draw(cursor);
+
         if (clock.getElapsedTime().asSeconds() > 1.0f)
             clock.restart();
     }

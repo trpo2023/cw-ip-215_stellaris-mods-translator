@@ -200,11 +200,7 @@ void TextField::draw(sf::RenderWindow &window)
     }
 }
 
-Interact::Interact(sf::Vector2f position, sf::Vector2f size)
-    : inputButton(sf::Vector2f(position.x + 30, position.y + 20), sf::Vector2f(280, 105), "input"),
-      localiseButton(sf::Vector2f(size.x / 2 - 140 + 40, position.y + 20), sf::Vector2f(280, 105), "localise"),
-      translateButton(sf::Vector2f(size.x + -310 + 40, position.y + 20), sf::Vector2f(280, 105), "translate"),
-      textField(sf::Vector2f(position.x + 30, position.y + 50), sf::Vector2f(1140, 50))
+Bottom::Bottom(sf::Vector2f position, sf::Vector2f size)
 {
     texture.loadFromFile("resources\\interact-bg.png");
     interact.setTexture(&texture);
@@ -212,26 +208,20 @@ Interact::Interact(sf::Vector2f position, sf::Vector2f size)
     interact.setSize(size);
 }
 
-void Interact::draw(sf::RenderWindow &window, bool inputPath, bool inputKey)
+void Bottom::draw(sf::RenderWindow &window)
 {
     window.draw(interact);
-
-    if (inputPath || inputKey)
-        textField.draw(window);
-
-    else
-    {
-        inputButton.draw(window);
-        localiseButton.draw(window);
-        translateButton.draw(window);
-    }
 }
 
 Interface::Interface()
     : window(sf::VideoMode(1280, 720), "Stellaris Mod Translator"),
       title(sf::Vector2f(40, 20), sf::Vector2f(1200, 200)),
       modDisplay(sf::Vector2f(40, 240), sf::Vector2f(1200, 295)),
-      interact(sf::Vector2f(40, 555), sf::Vector2f(1200, 145))
+      bottom(sf::Vector2f(40, 555), sf::Vector2f(1200, 145)),
+      inputButton(sf::Vector2f(70, 575), sf::Vector2f(280, 105), "input"),
+      localiseButton(sf::Vector2f(1200 / 2 - 140 + 40, 575), sf::Vector2f(280, 105), "localise"),
+      translateButton(sf::Vector2f(1200 + -310 + 40, 575), sf::Vector2f(280, 105), "translate"),
+      textField(sf::Vector2f(70, 605), sf::Vector2f(1140, 50))
 {
     bg.loadFromFile("resources\\bg.png");
     sprite.setTexture(bg);
@@ -260,18 +250,18 @@ void Interface::mainLoop()
                 window.close();
 
             else if (inputPath)
-                interact.textField.handleEvent(event, path, inputPath);
+                textField.handleEvent(event, path, inputPath);
 
             else if (inputKey)
-                interact.textField.handleEvent(event, key, inputKey);
+                textField.handleEvent(event, key, inputKey);
 
             else
             {
-                interact.inputButton.handleEventInput(event, window, inputPath);
+                inputButton.handleEventInput(event, window, inputPath);
                 if (mod.getLocType() > 1)
                 {
-                    interact.localiseButton.handleEventLocalise(event, window, localisator, mod, code);
-                    interact.translateButton.handleEventTranslate(event, window, inputKey);
+                    localiseButton.handleEventLocalise(event, window, localisator, mod, code);
+                    translateButton.handleEventTranslate(event, window, inputKey);
                 }
             }
 
@@ -316,7 +306,18 @@ void Interface::mainLoop()
         window.draw(sprite);
         title.draw(window);
         modDisplay.draw(window);
-        interact.draw(window, inputPath, inputKey);
+        bottom.draw(window);
+
+        if (inputPath || inputKey)
+            textField.draw(window);
+
+        else
+        {
+            inputButton.draw(window);
+            localiseButton.draw(window);
+            translateButton.draw(window);
+        }
+
         window.display();
     }
 }

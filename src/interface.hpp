@@ -71,19 +71,14 @@ public:
     void draw(sf::RenderWindow &window);
 };
 
-class Interact
+class Bottom
 {
     sf::RectangleShape interact;
     sf::Texture texture;
 
 public:
-    Button inputButton;
-    Button localiseButton;
-    Button translateButton;
-    TextField textField;
-
-    Interact(sf::Vector2f position, sf::Vector2f size);
-    void draw(sf::RenderWindow &window, bool input, bool inputKey);
+    Bottom(sf::Vector2f position, sf::Vector2f size);
+    void draw(sf::RenderWindow &window);
 };
 
 class Interface
@@ -94,7 +89,12 @@ class Interface
 
     Title title;
     ModDisplay modDisplay;
-    Interact interact;
+    Bottom bottom;
+
+    Button inputButton;
+    Button localiseButton;
+    Button translateButton;
+    TextField textField;
 
 public:
     Interface();

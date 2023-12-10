@@ -73,6 +73,9 @@ Mod Parser::parse(std::string path)
         if (entry.path().string().find("thumbnail") != std::string::npos)
             image = entry.path().string();
 
+    if (image.empty())
+        return Mod();
+
     std::string name;
     std::string descriptor = path + "\\" + "descriptor.mod";
     std::ifstream file(descriptor);
@@ -90,7 +93,8 @@ Mod Parser::parse(std::string path)
             }
         }
         file.close();
+        return Mod(name, image, type, files);
     }
 
-    return Mod(name, image, type, files);
+    return Mod();
 }

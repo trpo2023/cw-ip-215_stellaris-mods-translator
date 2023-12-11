@@ -244,7 +244,7 @@ Interface::Interface()
       title(sf::Vector2f(40, 20), sf::Vector2f(1200, 200)),
       modDisplay(sf::Vector2f(40, 240), sf::Vector2f(1200, 295)),
       bottom(sf::Vector2f(40, 555), sf::Vector2f(1200, 145)),
-      inputButton(sf::Vector2f(70, 575), sf::Vector2f(280, 105), "input"),
+      inputButton(sf::Vector2f(70, 575), sf::Vector2f(280, 105), "input path"),
       localiseButton(sf::Vector2f(1200 / 2 - 140 + 40, 575), sf::Vector2f(280, 105), "localise"),
       translateButton(sf::Vector2f(1200 + -310 + 40, 575), sf::Vector2f(280, 105), "translate"),
       textField(sf::Vector2f(70, 605), sf::Vector2f(1140, 50))

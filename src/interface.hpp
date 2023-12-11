@@ -48,11 +48,32 @@ class Button
 
 public:
     Button(sf::Vector2f position, sf::Vector2f size, std::string str);
-
-    void handleEventInput(sf::Event event, sf::RenderWindow &window, bool &inputPath);
-    void handleEventLocalise(sf::Event event, sf::RenderWindow &window, Localisator localisator, Mod mod, int &code);
-    void handleEventTranslate(sf::Event event, sf::RenderWindow &window, bool &inputApi);
+    void setDefault();
+    void setSelected();
+    sf::FloatRect getButtonGlobalBounds();
+    virtual void handleEvent(sf::Event event, sf::RenderWindow &window, bool &action) = 0;
     void draw(sf::RenderWindow &window);
+};
+
+class InputButton : public Button
+{
+public:
+    InputButton(sf::Vector2f position, sf::Vector2f size, std::string str) : Button(position, size, str) {}
+    void handleEvent(sf::Event event, sf::RenderWindow &window, bool &inputPath) override;
+};
+
+class LocaliseButton : public Button
+{
+public:
+    LocaliseButton(sf::Vector2f position, sf::Vector2f size, std::string str) : Button(position, size, str) {}
+    void handleEvent(sf::Event event, sf::RenderWindow &window, bool &localise) override;
+};
+
+class TranslateButton : public Button
+{
+public:
+    TranslateButton(sf::Vector2f position, sf::Vector2f size, std::string str) : Button(position, size, str) {}
+    void handleEvent(sf::Event event, sf::RenderWindow &window, bool &inputKey) override;
 };
 
 class TextField
@@ -90,9 +111,9 @@ class Interface
     ModDisplay modDisplay;
     Bottom bottom;
 
-    Button inputButton;
-    Button localiseButton;
-    Button translateButton;
+    InputButton inputButton;
+    LocaliseButton localiseButton;
+    TranslateButton translateButton;
     TextField textField;
 
 public:

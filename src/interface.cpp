@@ -90,46 +90,61 @@ Button::Button(sf::Vector2f position, sf::Vector2f size, std::string str)
     text.setPosition(sf::Vector2f(position.x + size.x / 2.0f, position.y + size.y / 2.0f));
 }
 
-void Button::handleEventInput(sf::Event event, sf::RenderWindow &window, bool &inputPath)
+void Button::setDefault()
 {
-    if (button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,
+    button.setTexture(&texture);
+}
+
+void Button::setSelected()
+{
+    button.setTexture(&textureSelected);
+}
+
+sf::FloatRect Button::getButtonGlobalBounds()
+{
+    return button.getGlobalBounds();
+}
+
+void InputButton::handleEvent(sf::Event event, sf::RenderWindow &window, bool &inputPath)
+{
+    if (getButtonGlobalBounds().contains(sf::Mouse::getPosition(window).x,
                                           sf::Mouse::getPosition(window).y))
     {
-        button.setTexture(&textureSelected);
+        setSelected();
         if (event.type == sf::Event::MouseButtonPressed)
             inputPath = 1;
     }
 
     else
-        button.setTexture(&texture);
+        setDefault();
 }
 
-void Button::handleEventLocalise(sf::Event event, sf::RenderWindow &window, Localisator localisator, Mod mod, int &code)
+void LocaliseButton::handleEvent(sf::Event event, sf::RenderWindow &window, bool &localise)
 {
-    if (button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,
+    if (getButtonGlobalBounds().contains(sf::Mouse::getPosition(window).x,
                                           sf::Mouse::getPosition(window).y))
     {
-        button.setTexture(&textureSelected);
+        setSelected();
         if (event.type == sf::Event::MouseButtonPressed)
-            code = localisator.localise(mod);
+            localise = 1;
     }
 
     else
-        button.setTexture(&texture);
+        setDefault();
 }
 
-void Button::handleEventTranslate(sf::Event event, sf::RenderWindow &window, bool &inputKey)
+void TranslateButton::handleEvent(sf::Event event, sf::RenderWindow &window, bool &inputKey)
 {
-    if (button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,
+    if (getButtonGlobalBounds().contains(sf::Mouse::getPosition(window).x,
                                           sf::Mouse::getPosition(window).y))
     {
-        button.setTexture(&textureSelected);
+        setSelected();
         if (event.type == sf::Event::MouseButtonPressed)
             inputKey = 1;
     }
 
     else
-        button.setTexture(&texture);
+        setDefault();
 }
 
 void Button::draw(sf::RenderWindow &window)
@@ -251,6 +266,7 @@ void Interface::mainLoop()
     int code = -1;
     bool inputPath = 0;
     bool inputKey = 0;
+    bool localise = 0;
 
     while (window.isOpen())
     {
@@ -266,13 +282,19 @@ void Interface::mainLoop()
             else if (inputKey)
                 textField.handleEvent(event, key, inputKey);
 
+            else if(localise)
+            {
+                code = localisator.localise(mod);
+                localise = 0;
+            }
+
             else
             {
-                inputButton.handleEventInput(event, window, inputPath);
+                inputButton.handleEvent(event, window, inputPath);
                 if (mod.getLocType() > 1)
                 {
-                    localiseButton.handleEventLocalise(event, window, localisator, mod, code);
-                    translateButton.handleEventTranslate(event, window, inputKey);
+                    localiseButton.handleEvent(event, window, localise);
+                    translateButton.handleEvent(event, window, inputKey);
                 }
             }
 

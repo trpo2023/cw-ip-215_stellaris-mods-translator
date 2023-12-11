@@ -28,7 +28,7 @@ void Localisator::createFolders()
 
 int Localisator::localise(Mod mod)
 {
-    if (mod.getLocType() == TRANSLATED || mod.getLocType() == UNTRANSLATABLE)
+    if (mod.getLocType() < 2)
         return mod.getLocType();
 
     addPaths(mod);

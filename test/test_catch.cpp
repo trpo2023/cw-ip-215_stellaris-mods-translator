@@ -34,7 +34,18 @@ SCENARIO("parse and localise mod", "[parser and localisator]")
             }
         }
 
-        WHEN("localising mod")
+        WHEN("localising mod with incorrect path")
+        {
+            mod = parser.parse("aboba");
+            int code = localisator.localise(mod);
+
+            THEN("code equals -1")
+            {
+                REQUIRE(code == -1);
+            }
+        }
+
+        WHEN("localising mod with correct path")
         {
             mod = parser.parse("test\\testMod");
             int code = localisator.localise(mod);

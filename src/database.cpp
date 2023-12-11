@@ -15,10 +15,17 @@ DataBase::~DataBase()
     sqlite3_close(db);
 }
 
+bool found = 0;
+int callback(void *NotUsed, int argc, char **argv, char **azColName)
+{
+    found = 1;
+    return 0;
+}
+
 bool DataBase::check(std::string text)
 {
     std::string sql = "SELECT * FROM TRANSLATIONS WHERE ORIGINAL = '" + text + "'";
-    exit = sqlite3_exec(db, sql.c_str(), NULL, NULL, &errMsg);
+    exit = sqlite3_exec(db, sql.c_str(), callback, NULL, &errMsg);
 
     if (exit != SQLITE_OK)
     {
@@ -26,14 +33,14 @@ bool DataBase::check(std::string text)
         return 0;
     }
 
-    return 1;
+    return found;
 }
 
 std::string DataBase::getTranslation(std::string text)
 {
     std::string result;
     std::string sql = "SELECT TRANSLATION FROM TRANSLATIONS WHERE ORIGINAL = '" + text + "'";
-    
+
     exit = sqlite3_exec(
         db, sql.c_str(), [](void *data, int argc, char **argv, char **azColName) -> int
         { *static_cast<std::string *>(data) = argv[0];

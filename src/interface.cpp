@@ -300,11 +300,10 @@ void Interface::mainLoop()
 
             if (!key.empty())
             {
-                key.clear();
-
                 translator.connect();
                 translator.setKey(key);
                 code = translator.localise(mod);
+                key.clear();
             }
 
             if (!path.empty())

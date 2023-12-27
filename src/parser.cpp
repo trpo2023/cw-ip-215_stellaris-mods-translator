@@ -41,7 +41,7 @@ void Parser::fillFiles(std::vector<std::string> &files, std::filesystem::path pa
         if (std::filesystem::is_directory(entry.status()))
             fillFiles(files, entry.path());
 
-        if (entry.path().string().find("_l_english.yml") != std::string::npos)
+        if (entry.path().string().find(".yml") != std::string::npos)
             files.push_back(entry.path().string());
     }
 }

@@ -13,16 +13,16 @@ void Localisator::addPaths(Mod mod)
 
 void Localisator::createFolders()
 {
-    for (auto file = files.rbegin(); file != files.rend(); ++file)
+    for (auto &file : files)
     {
-        std::string buferline = file->first;
+        std::string buferline = file.first;
         if (buferline.find("\\english") != std::string::npos)
             buferline.replace(buferline.find("\\english"), 8, "\\russian");
         buferline.replace(buferline.rfind("english.yml"), 11, "russian.yml");
 
-        file->second = buferline;
+        file.second = buferline;
         buferline.erase(buferline.rfind("\\"));
-        std::filesystem::create_directory(buferline);
+        std::filesystem::create_directories(buferline);
     }
 }
 
